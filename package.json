@@ -1,0 +1,30 @@
+{
+  "name": "@mdnx/tcf-encoder",
+  "version": "0.1.0",
+  "description": "IAB's Transparency & Consent Framework CMP Encoder in TypeScript",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf dist",
+    "test": "jest"
+  },
+  "author": "Denny Bartelt <d.bartelt@mairdumont-netletix.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mairdumont-netletix/tcf-encoder"
+  },
+  "bugs": {
+    "url": "https://github.com/mairdumont-netletix/tcf-encoder/issues"
+  },
+  "homepage": "https://github.com/mairdumont-netletix/tcf-encoder#readme",
+  "devDependencies": {
+    "@mdnx/tcf-types": "1.0.0",
+    "@types/jest": "^24.0.18",
+    "jest": "^24.9.0",
+    "rimraf": "^3.0.0",
+    "ts-jest": "^24.1.0",
+    "typescript": "^3.6.3"
+  }
+}
