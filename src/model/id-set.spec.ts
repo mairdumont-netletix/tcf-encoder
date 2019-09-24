@@ -44,13 +44,59 @@ describe('IdSet', (): void => {
     expect(idSet.maxId).not.toBe(-2);
   });
 
-  it('should delete a single id', (): void => {
-    const idSet = new IdSet();
+  it('should delete a single id (which is not maxId)', (): void => {
+    const idSet = new IdSet([1]);
+    idSet.add(2);
+    expect(idSet.has(2)).toBeTruthy();
+    expect(idSet.maxId).toBe(2);
+    idSet.delete(1);
+    expect(idSet.has(1)).toBeFalsy();
+    expect(idSet.maxId).toBe(2);
+  });
+
+  it('should delete a single id (which is maxId)', (): void => {
+    const idSet = new IdSet([1]);
     idSet.add(2);
     expect(idSet.has(2)).toBeTruthy();
     expect(idSet.maxId).toBe(2);
     idSet.delete(2);
     expect(idSet.has(2)).toBeFalsy();
-    expect(idSet.maxId).toBe(0);
+    expect(idSet.maxId).toBe(1);
+  });
+
+  it('should get entries', (): void => {
+    const idSet = new IdSet([12, 3, 7]);
+    const iterator = idSet.entries();
+    expect(iterator.next().value).toStrictEqual([12, 12]);
+    expect(iterator.next().value).toStrictEqual([3, 3]);
+    expect(iterator.next().value).toStrictEqual([7, 7]);
+  });
+
+  it('should get keys', (): void => {
+    const idSet = new IdSet([12, 3, 7]);
+    const iterator = idSet.keys();
+    expect(iterator.next().value).toBe(12);
+    expect(iterator.next().value).toBe(3);
+    expect(iterator.next().value).toBe(7);
+  });
+
+  it('should get values', (): void => {
+    const idSet = new IdSet([12, 3, 7]);
+    const iterator = idSet.values();
+    expect(iterator.next().value).toBe(12);
+    expect(iterator.next().value).toBe(3);
+    expect(iterator.next().value).toBe(7);
+  });
+
+  it('should iterate', (): void => {
+    const idSet = new IdSet([12, 3, 7]);
+    for (const id of idSet) {
+      expect(idSet.has(id)).toBeTruthy();
+    }
+  });
+
+  it('should implement forEach', (): void => {
+    const idSet = new IdSet([12, 3, 7]);
+    idSet.forEach(id => expect(idSet.has(id)).toBeTruthy());
   });
 });
