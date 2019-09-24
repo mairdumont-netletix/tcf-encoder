@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "rimraf dist",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "author": "Denny Bartelt <d.bartelt@mairdumont-netletix.com>",
   "license": "MIT",
