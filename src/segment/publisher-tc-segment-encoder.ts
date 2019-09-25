@@ -1,4 +1,4 @@
-import { Encoder } from "../encoder";
+import { Encoder } from "../interfaces";
 import { TCModel } from "../model/tc-model";
 
 export class PublisherTCSegmentEncoder implements Encoder<TCModel> {
