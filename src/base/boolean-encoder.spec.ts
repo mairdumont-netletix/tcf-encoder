@@ -1,4 +1,4 @@
-import { Encoder } from '../encoder';
+import { Encoder } from '../interfaces';
 import { BooleanEncoder } from './boolean-encoder';
 
 describe('BooleanEncoder', (): void => {

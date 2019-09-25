@@ -1,4 +1,4 @@
-import { Encoder } from '../encoder';
+import { Encoder } from '../interfaces';
 import { DateEncoder } from './date-encoder';
 
 describe('DateEncoder', (): void => {

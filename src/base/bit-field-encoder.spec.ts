@@ -1,5 +1,5 @@
 import { BitField } from '@mdnx/tcf-types';
-import { Encoder } from '../encoder';
+import { Encoder } from '../interfaces';
 import { BitFieldEncoder } from './bit-field-encoder';
 
 describe('BitFieldEncoder', (): void => {

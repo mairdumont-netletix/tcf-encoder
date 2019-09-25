@@ -1,4 +1,4 @@
-import { Encoder } from '../encoder';
+import { Encoder } from '../interfaces';
 import { IdSet } from '../model/id-set';
 import { BooleanEncoder } from './boolean-encoder';
 

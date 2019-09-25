@@ -1,3 +1,3 @@
 export * from './base';
-export * from './encoder';
+export * from './interfaces';
 export * from './model';

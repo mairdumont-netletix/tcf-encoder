@@ -1,4 +1,4 @@
-import { Encoder } from '../encoder';
+import { Encoder } from '../interfaces';
 
 export class NumberEncoder implements Encoder<number> {
 
