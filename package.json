@@ -7,6 +7,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "rimraf dist",
+    "test:watch": "jest --coverage --watch",
     "test": "jest --coverage"
   },
   "author": "Denny Bartelt <d.bartelt@mairdumont-netletix.com>",
