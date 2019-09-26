@@ -46,6 +46,13 @@ describe('BitFieldEncoder', (): void => {
   shouldEncodeAndDecode(createRandomBinaryString(1024));
   shouldEncodeAndDecode(createRandomBinaryString(2048));
 
+  it('should encode theese fixtures', (): void => {
+    expect(encoder.encode('010')).toBe('Q');
+    expect(encoder.encode('010000')).toBe('Q');
+    expect(encoder.encode('000011')).toBe('D');
+    expect(encoder.encode('00001100')).toBe('DA');
+  });
+
   it('should throw an error if non-binary string is passed to encode', (): void => {
     const notABinaryString = '01helloworld';
     expect(() => encoder.encode(notABinaryString)).toThrowError(/Invalid BitField/);
