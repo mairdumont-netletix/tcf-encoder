@@ -99,4 +99,10 @@ describe('IdSet', (): void => {
     const idSet = new IdSet([12, 3, 7]);
     idSet.forEach(id => expect(idSet.has(id)).toBeTruthy());
   });
+
+  it('should calculate ranges', (): void => {
+    const idSet = new IdSet([1, 7, 3, 6, 2, 8, 101, 102, 103, 104]);
+    const ranges = idSet.getRanges();
+    expect(ranges).toStrictEqual([[1, 3], [6, 8], [101, 104]])
+  })
 });

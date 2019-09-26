@@ -53,8 +53,34 @@ export class IdSet implements Set<number> {
     return result;
   }
 
-  forEach(callbackfn: (value: number, value2: number, set: Set<number>) => void, thisArg?: any): void {
-    return this.set_.forEach(callbackfn);
+  forEach(callback: (value: number, index: number, set: Set<number>) => void, thisArg?: any): void {
+    return this.set_.forEach(callback);
+  }
+
+  // forEach - to traverse from id=1 to id=maxId in a sequential non-sparse manner
+  forEachBit(callback: (value: boolean, id: number) => void): void {
+    for (let i = 1; i <= this.maxId; i++) {
+      callback(this.has(i), i);
+    }
+  }
+
+  getRanges(): number[][] {
+    const ranges: number[][] = [];
+    let range: number[] = [];
+    for (let i = 1; i <= this.maxId; i++) {
+      const curValue = this.has(i);
+      if (curValue) {
+        const nextValue = this.has(i + 1);
+        if (!nextValue) {
+          range.push(i);
+          ranges.push(range);
+          range = [];
+        } else if (range.length === 0) {
+          range.push(i);
+        }
+      }
+    }
+    return ranges;
   }
 
   has(value: number): boolean {
