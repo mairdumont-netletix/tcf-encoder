@@ -10,6 +10,18 @@ describe('TcModelEncoder', (): void => {
     encoder = new TCModelEncoder();
   })
 
+  describe('encode', (): void => {
+    it('should encode TCModel', (): void => {
+      const tcModel = new TCModel();
+      tcModel.cmpId = 9999;
+      tcModel.cmpVersion = 17;
+      tcModel.vendorListVersion = 2;
+      const encoded = encoder.encode(tcModel);
+      const expected = 'BObdrPUOevsguAfDqFENCNAAAAAmeAAA';
+      expect(encoded).toBe(expected);
+    });
+  });
+
   describe('decode', (): void => {
 
     it('should decode [Core]', (): void => {

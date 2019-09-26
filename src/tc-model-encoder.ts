@@ -1,11 +1,24 @@
 import { BitFieldEncoder, NumberEncoder } from "./base";
+import { SegmentType } from "./constants";
 import { Encoder } from "./interfaces";
 import { TCModel } from "./model/tc-model";
+import { segmentEncoderLookup } from "./segment/segment-encoder-lookup";
 
 export class TCModelEncoder implements Encoder<TCModel> {
 
   encode(value: TCModel): string {
-    throw new Error("Method not implemented.");
+    const segmentsToEncode = [
+      SegmentType.CORE,
+      SegmentType.VENDORS_DISCLOSED,
+      SegmentType.VENDORS_ALLOWED,
+      SegmentType.PUBLISHER_TC,
+    ];
+
+    return segmentsToEncode
+      .map(segmentEncoderLookup)
+      .map(encoder => encoder && encoder.encode(value))
+      .filter(encoded => encoded)
+      .join('.');
   }
 
   decode(value: string): TCModel {
@@ -20,7 +33,9 @@ export class TCModelEncoder implements Encoder<TCModel> {
       const segTypeBits: string = bitFieldEncoder.decode(segment.charAt(0));
       const segType: number = numberEncoder.decode(segTypeBits.substr(0, 3));
 
-      // console.log(`value=${value}, i=${i}, segment=${segment}, segType=${segType}`);
+      const segmentEncoder = segmentEncoderLookup(segType);
+
+      // console.log(`value=${value}, i=${i}, segment=${segment}, segTypeBits=${segTypeBits}, segType=${segType}`);
     }
 
     return tcModel;
