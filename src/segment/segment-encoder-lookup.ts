@@ -6,7 +6,7 @@ import { PublisherTCSegmentEncoder } from "./publisher-tc-segment-encoder";
 import { VendorsAllowedSegmentEncoder } from "./vendors-allowed-segment-encoder";
 import { VendorsDisclosedSegmentEncoder } from "./vendors-disclosed-segment-encoder";
 
-const segmentEncoderMap: { [key: number]: Encoder<TCModel> } = {
+const segmentEncoderMap: { [segmentType in SegmentType]: Encoder<TCModel> } = {
   [SegmentType.CORE]: new CoreSegmentEncoder(),
   [SegmentType.VENDORS_DISCLOSED]: new VendorsDisclosedSegmentEncoder(),
   [SegmentType.VENDORS_ALLOWED]: new VendorsAllowedSegmentEncoder(),
