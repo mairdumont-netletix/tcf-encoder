@@ -1,5 +1,6 @@
-import { BooleanEncoder, DateEncoder, IdSetEncoder, NumberEncoder } from "../base";
 import { Encoder } from "../interfaces";
+import { BitFieldEncoder, BooleanEncoder, DateEncoder, NumberEncoder } from "../base";
+import { IdSetEncoder, LanguageEncoder } from "../composed";
 import { TCModel } from "../model/tc-model";
 
 export class CoreSegmentEncoder implements Encoder<TCModel> {

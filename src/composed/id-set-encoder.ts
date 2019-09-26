@@ -1,6 +1,6 @@
+import { BooleanEncoder } from '../base/boolean-encoder';
 import { Encoder } from '../interfaces';
 import { IdSet } from '../model/id-set';
-import { BooleanEncoder } from './boolean-encoder';
 
 export class IdSetEncoder implements Encoder<IdSet> {
 
