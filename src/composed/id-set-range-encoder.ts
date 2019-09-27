@@ -1,4 +1,4 @@
-import { NumberEncoder } from "../base";
+import { BooleanEncoder, NumberEncoder } from "../base";
 import { RangeType } from "../constants";
 import { Encoder } from "../interfaces";
 import { IdSet } from "../model";
@@ -6,6 +6,7 @@ import { IdSet } from "../model";
 export class IdSetRangeEncoder implements Encoder<IdSet> {
 
   private numberEncoder = new NumberEncoder();
+  private booleanEncoder = new BooleanEncoder();
 
   encode(idSet: IdSet): string {
     const ranges: number[][] = idSet.getRanges();
@@ -26,18 +27,16 @@ export class IdSetRangeEncoder implements Encoder<IdSet> {
     return bitString;
   }
 
-  decode(value: string, idSet: IdSet = new IdSet()): IdSet {
-    const defaultValue: number = this.numberEncoder.decode(value.charAt(0));
-
-    if (defaultValue) {
-      // assume that the last 16 bits contains the maximum id
-      const maxId: number = this.numberEncoder.decode(value.substr(value.length - 16, 16));
-      for (let singleId = 1; singleId <= maxId; singleId++) {
-        idSet.add(singleId);
-      }
-    }
-
+  decode(value: string): IdSet {
+    // read defaultValue, 1 bit
+    const defaultValue: boolean = this.booleanEncoder.decode(value.charAt(0));
+    // read numEntries to process, 12 bit
     const numEntries: number = this.numberEncoder.decode(value.substr(1, 12));
+    // assume that the last 16 bits contains the maximum id
+    const maxId: number = (numEntries > 0) ? this.numberEncoder.decode(value.substr(value.length - 16, 16)) : 0;
+
+    const idSet = new IdSet([], defaultValue, 1, maxId);
+
     let index = 13;
     for (let i = 0; i < numEntries; i++) {
       const rangeType: number = this.numberEncoder.decode(value.charAt(index++));

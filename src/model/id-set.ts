@@ -14,9 +14,16 @@ export class IdSet implements Set<number> {
    */
   private set_: Set<number> = new Set<number>();
 
-  public constructor(ids?: number[]) {
-    if (ids && ids.length) {
-      ids.forEach(id => this.add(id));
+  public constructor(ids?: number[], defaultValue: boolean = false, minId: number = 1, maxId: number = 0) {
+    let idsToAdd = ids;
+    if (defaultValue) {
+      idsToAdd = Array.from(Array(maxId - minId + 1).keys(), i => i + minId);
+      if (ids && ids.length) {
+        idsToAdd = idsToAdd.filter(id => ids.indexOf(id) === -1);
+      }
+    }
+    if (idsToAdd && idsToAdd.length) {
+      idsToAdd.forEach(id => this.add(id));
     }
   }
 

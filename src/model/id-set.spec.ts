@@ -103,6 +103,18 @@ describe('IdSet', (): void => {
   it('should calculate ranges', (): void => {
     const idSet = new IdSet([1, 7, 3, 6, 2, 8, 101, 102, 103, 104]);
     const ranges = idSet.getRanges();
-    expect(ranges).toStrictEqual([[1, 3], [6, 8], [101, 104]])
+    expect(ranges).toStrictEqual([[1, 3], [6, 8], [101, 104]]);
   })
+
+  it('should calculate ranges with default value', (): void => {
+    const idSet = new IdSet([3, 4], true, 2, 6);
+    const ranges = idSet.getRanges();
+    expect(ranges).toStrictEqual([[2], [5, 6]]);
+  });
+
+  it('should calculate ranges with default value 2', (): void => {
+    const idSet = new IdSet([], true, 6, 6);
+    const ranges = idSet.getRanges();
+    expect(ranges).toStrictEqual([[6]]);
+  });
 });
