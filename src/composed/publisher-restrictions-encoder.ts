@@ -14,6 +14,7 @@ export class PublisherRestrictionsEncoder implements Encoder<PublisherRestrictio
   }
 
   decode(value: string): PublisherRestrictions {
-    throw new Error("Method not implemented.");
+    // TODO: implement decoding
+    return new PublisherRestrictions();
   }
 }

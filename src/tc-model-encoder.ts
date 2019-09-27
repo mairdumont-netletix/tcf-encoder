@@ -31,7 +31,7 @@ export class TCModelEncoder implements Encoder<TCModel> {
     if (segments.length) {
       // decode segment 0
       tcModel = segmentEncoderLookup(SegmentType.CORE)!.decode(segments[0], tcModel);
-      // decode segment 1 - 4 if available
+      // decode segment 1 - 3 if available
       for (let i = 1; i < segments.length; i++) {
         const segment: string = segments[i];
         // first char will contain 6 bits, we only need the first 3

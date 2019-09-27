@@ -14,6 +14,9 @@ export class TCModel /*implements TCData*/ {
   public readonly specialFeatureOptIns: IdSet = new IdSet();
   public readonly purposeConsents: IdSet = new IdSet();
 
+  public readonly vendorsDisclosed: IdSet = new IdSet();
+  public readonly vendorsAllowed: IdSet = new IdSet();
+
   public set cmpId(value: number) {
     if (isIntegerGreaterThan(value, 1)) {
       this.cmpId_ = value;
