@@ -1,5 +1,5 @@
 import { BitFieldEncoder, BooleanEncoder, DateEncoder, NumberEncoder } from "../base";
-import { IdSetEncoder, LanguageEncoder } from "../composed";
+import { IdSetLinearEncoder, LanguageEncoder, VendorEncoder } from "../composed";
 import { Field } from "../constants";
 import { Encoder, FieldMap } from "../interfaces";
 import { IdSet } from "../model";
@@ -11,8 +11,9 @@ export class CoreSegmentEncoder implements Encoder<TCModel> {
   private numberEncoder = new NumberEncoder();
   private booleanEncoder = new BooleanEncoder();
   private dateEncoder = new DateEncoder();
-  private idSetEncoder = new IdSetEncoder();
+  private idSetLinearEncoder = new IdSetLinearEncoder();
   private languageEncoder = new LanguageEncoder();
+  private vendorEncoder = new VendorEncoder();
 
   private fieldMap: FieldMap = {
     [Field.VERSION]: {
@@ -97,7 +98,7 @@ export class CoreSegmentEncoder implements Encoder<TCModel> {
     },
     [Field.VENDOR_CONSENTS]: {
       bits: undefined,
-      encoder: this.idSetEncoder,
+      encoder: this.vendorEncoder,
       value: (m) => new IdSet(), // TODO
     },
     // TODO: many more

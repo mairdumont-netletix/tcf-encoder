@@ -1,13 +1,13 @@
 import { Encoder } from '../interfaces';
 import { IdSet } from '../model/id-set';
-import { IdSetEncoder } from './id-set-encoder';
+import { IdSetLinearEncoder } from './id-set-linear-encoder';
 
-describe('VectorEncoder', (): void => {
+describe('IdSetLinearEncoder', (): void => {
 
   let encoder: Encoder<IdSet>;
 
   beforeEach(() => {
-    encoder = new IdSetEncoder();
+    encoder = new IdSetLinearEncoder();
   })
 
   describe('encode', (): void => {

@@ -2,7 +2,7 @@ import { BooleanEncoder } from '../base/boolean-encoder';
 import { Encoder } from '../interfaces';
 import { IdSet } from '../model/id-set';
 
-export class IdSetEncoder implements Encoder<IdSet> {
+export class IdSetLinearEncoder implements Encoder<IdSet> {
 
   private booleanEncoder = new BooleanEncoder();
 

@@ -25,13 +25,10 @@ export enum EncodingType {
 
 /**
  * IsARange, 1bit,
- * If more than one Vendor ID is included in this RangeEntry then this
- * describes a range of Vendor IDs and this value is 1.
- * If only one Vendor ID is included then the value is 0.
  */
 export enum RangeType {
-  SINGLE_VENDOR_ID = 0,
-  VENDOR_ID_RANGE = 1,
+  SINGLE_ID = 0,
+  ID_RANGE = 1,
 }
 
 export enum Version {

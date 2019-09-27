@@ -1,62 +1,33 @@
 import { NumberEncoder } from "../base";
-import { EncodingType, RangeType } from "../constants";
+import { EncodingType } from "../constants";
 import { Encoder } from "../interfaces";
 import { IdSet } from "../model";
-import { IdSetEncoder } from "./id-set-encoder";
+import { IdSetLinearEncoder } from "./id-set-linear-encoder";
+import { IdSetRangeEncoder } from "./id-set-range-encoder";
 
 export class VendorEncoder implements Encoder<IdSet> {
 
   private numberEncoder = new NumberEncoder();
-  private idSetEncoder = new IdSetEncoder();
+  private idSetRangeEncoder = new IdSetRangeEncoder();
+  private idSetLinearEncoder = new IdSetLinearEncoder();
 
   encode(idSet: IdSet): string {
+    // create two different encodings of the same thing: linear and range encoding of vendors
+    const vendorLinearBitString = this.idSetLinearEncoder.encode(idSet, idSet.maxId);
+    const vendorRangeBitString = this.idSetRangeEncoder.encode(idSet);
+
     // maxId in 16 bits
     let bitString = this.numberEncoder.encode(idSet.maxId, 16);
-
-    // linear encoding of bits
-    const bitField = this.idSetEncoder.encode(idSet, idSet.maxId);
-    // calculate ranges and bitlength of range encoding
-    const ranges: number[][] = idSet.getRanges();
-    const rangesLength = this.calculateBitsOfRange(ranges);
-    // depending of what is shorter, we use bitField or range encoding
-    if (rangesLength < bitField.length) {
-      bitString += `${EncodingType.RANGE}`;
-      bitString += this.createRangeEncoding(ranges);
+    // depending of what is shorter, we use linear or range encoding
+    if (vendorRangeBitString.length < vendorLinearBitString.length) {
+      bitString += EncodingType.RANGE + vendorRangeBitString;
     } else {
-      bitString += `${EncodingType.FIELD}`;
-      bitString += bitField;
+      bitString += EncodingType.FIELD + vendorLinearBitString;
     }
-
     return bitString;
   }
 
   decode(value: string): IdSet {
     throw new Error("Method not implemented.");
-  }
-
-  private createRangeEncoding(ranges: number[][]): string {
-    let bitString = '';
-    // NumEntries, 12 bits, Number of RangeEntry sections to follow
-    bitString += this.numberEncoder.encode(ranges.length, 12);
-    ranges.forEach((range: number[]) => {
-      if (range.length === 1) {
-        bitString += this.numberEncoder.encode(RangeType.SINGLE_VENDOR_ID, 1);
-        bitString += this.numberEncoder.encode(range[0], 16);
-      } else if (range.length >= 2) {
-        bitString += this.numberEncoder.encode(RangeType.VENDOR_ID_RANGE, 1);
-        bitString += this.numberEncoder.encode(range[0], 16);
-        bitString += this.numberEncoder.encode(range[1], 16);
-      }
-    });
-    return bitString;
-  }
-
-  private calculateBitsOfRange(ranges: number[][]): number {
-    let length = 1 + 12;
-    ranges.forEach((range: number[]) => {
-      length += 1;
-      length += (range.length === 1) ? 16 : 32;
-    });
-    return length;
   }
 }
