@@ -1,5 +1,6 @@
 import { BitFieldEncoder, BooleanEncoder, DateEncoder, NumberEncoder } from "../base";
 import { IdSetLinearEncoder, LanguageEncoder, VendorEncoder } from "../composed";
+import { PublisherRestrictionsEncoder } from "../composed/publisher-restrictions-encoder";
 import { Field } from "../constants";
 import { Encoder, FieldMap } from "../interfaces";
 import { IdSet } from "../model";
@@ -14,6 +15,7 @@ export class CoreSegmentEncoder implements Encoder<TCModel> {
   private idSetLinearEncoder = new IdSetLinearEncoder();
   private languageEncoder = new LanguageEncoder();
   private vendorEncoder = new VendorEncoder();
+  private publisherRestrictionsEncoder = new PublisherRestrictionsEncoder();
 
   private fieldMap: FieldMap = {
     [Field.VERSION]: {
@@ -99,8 +101,18 @@ export class CoreSegmentEncoder implements Encoder<TCModel> {
     [Field.VENDOR_CONSENTS]: {
       bits: undefined,
       encoder: this.vendorEncoder,
-      value: (m) => new IdSet(), // TODO
+      value: (m) => new IdSet([], true, 1, 100), // TODO
     },
+    [Field.VENDOR_LEGITIMATE_INTEREST]: {
+      bits: undefined,
+      encoder: this.vendorEncoder,
+      value: (m) => new IdSet([], true, 1, 100), // TODO
+    },
+    [Field.PUBLISHER_RESTRICTIONS]: {
+      bits: undefined,
+      encoder: this.publisherRestrictionsEncoder,
+      value: (m) => undefined, // TODO
+    }
     // TODO: many more
   }
 
