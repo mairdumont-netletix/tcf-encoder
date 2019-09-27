@@ -1,4 +1,6 @@
+import { PurposeInfo } from "@mdnx/tcf-types";
 import { TCModelError } from "../error/tc-model-error";
+import { IdMap } from "../interfaces";
 import { isIntegerGreaterThan } from "../utils";
 import { IdSet } from "./id-set";
 
@@ -13,6 +15,14 @@ export class TCModel /*implements TCData*/ {
 
   public readonly specialFeatureOptIns: IdSet = new IdSet();
   public readonly purposeConsents: IdSet = new IdSet();
+
+  public readonly publisherConsents: IdSet = new IdSet();
+  public readonly publisherLITransparency: IdSet = new IdSet();
+
+  public customPurposes: IdMap<PurposeInfo> = {};
+
+  public readonly publisherCustomConsents: IdSet = new IdSet();
+  public readonly publisherCustomLITransparency: IdSet = new IdSet();
 
   public readonly vendorsDisclosed: IdSet = new IdSet();
   public readonly vendorsAllowed: IdSet = new IdSet();

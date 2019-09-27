@@ -37,6 +37,7 @@ export enum Version {
 }
 
 export enum Field {
+  SEGMENT_TYPE = 'segmentType',
   VERSION = 'version',
   CREATED = 'created',
   LAST_UPDATED = 'lastUpdated',
