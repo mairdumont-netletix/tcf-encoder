@@ -3,7 +3,7 @@ import { TCModel } from "./model/tc-model";
 
 export interface Encoder<T> {
   encode(value: T, numBits?: number): string;
-  decode(value: string): T;
+  decode(value: string, target?: T): T;
 }
 
 export interface IdMap<T> {

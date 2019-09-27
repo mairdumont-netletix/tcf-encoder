@@ -28,6 +28,17 @@ export class VendorEncoder implements Encoder<IdSet> {
   }
 
   decode(value: string): IdSet {
-    throw new Error("Method not implemented.");
+    let idSet: IdSet = new IdSet();
+    const maxId: number = this.numberEncoder.decode(value.substr(0, 16));
+    const encodingType: EncodingType = this.numberEncoder.decode(value.substr(16, 1));
+    switch (encodingType) {
+      case EncodingType.RANGE:
+        idSet = this.idSetRangeEncoder.decode(value.substr(17, value.length - 17));
+        break;
+      case EncodingType.FIELD:
+        idSet = this.idSetLinearEncoder.decode(value.substr(17, maxId));
+        break;
+    }
+    return idSet;
   }
 }

@@ -104,4 +104,12 @@ export class IdSet implements Set<number> {
   }
 
   [Symbol.toStringTag]: string;
+
+  toArray(): number[] {
+    return Array.from(this);
+  }
+
+  clone(): IdSet {
+    return new IdSet(this.toArray());
+  }
 }
