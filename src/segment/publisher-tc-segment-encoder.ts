@@ -7,7 +7,7 @@ export class PublisherTCSegmentEncoder implements Encoder<TCModel> {
     throw new Error("Method not implemented.");
   }
 
-  decode(value: string): TCModel {
-    throw new Error("Method not implemented.");
+  decode(value: string, tcModel: TCModel): TCModel {
+    return tcModel;
   }
 }

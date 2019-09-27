@@ -116,7 +116,18 @@ export class CoreSegmentEncoder implements Encoder<TCModel> {
     return this.bitfieldEncoder.encode(bitField);
   }
 
-  decode(value: string): TCModel {
-    throw new Error("Method not implemented.");
+  decode(value: string, tcModel: TCModel): TCModel {
+    const bitField = this.bitfieldEncoder.decode(value);
+    let position = 0;
+    for (const field in this.fieldMap) {
+      const fieldInfo = this.fieldMap[field as Field];
+      if (fieldInfo) {
+        const { bits, encoder } = fieldInfo;
+        const chunk = bitField.substr(position, bits);
+        const decoded = encoder.decode(chunk);
+        position += bits || 0; // TODO: bits undefined?
+      }
+    }
+    return tcModel;
   }
 }

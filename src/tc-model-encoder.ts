@@ -22,7 +22,7 @@ export class TCModelEncoder implements Encoder<TCModel> {
   }
 
   decode(value: string): TCModel {
-    const tcModel: TCModel = new TCModel();
+    let tcModel: TCModel = new TCModel();
     const bitFieldEncoder = new BitFieldEncoder();
     const numberEncoder = new NumberEncoder();
 
@@ -34,6 +34,9 @@ export class TCModelEncoder implements Encoder<TCModel> {
       const segType: number = numberEncoder.decode(segTypeBits.substr(0, 3));
 
       const segmentEncoder = segmentEncoderLookup(segType);
+      if (segmentEncoder) {
+        tcModel = segmentEncoder.decode(segment, tcModel);
+      }
 
       // console.log(`value=${value}, i=${i}, segment=${segment}, segTypeBits=${segTypeBits}, segType=${segType}`);
     }
