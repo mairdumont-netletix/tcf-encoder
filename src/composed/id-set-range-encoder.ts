@@ -8,6 +8,10 @@ export class IdSetRangeEncoder implements Encoder<IdSet> {
   private numberEncoder = new NumberEncoder();
   private booleanEncoder = new BooleanEncoder();
 
+  constructor(
+    private maxId: number,
+  ) { }
+
   encode(idSet: IdSet): string {
     const ranges: number[][] = idSet.getRanges();
     // defaultValue, 1 bit, default is 0
@@ -32,10 +36,8 @@ export class IdSetRangeEncoder implements Encoder<IdSet> {
     const defaultValue: boolean = this.booleanEncoder.decode(value.charAt(0));
     // read numEntries to process, 12 bit
     const numEntries: number = this.numberEncoder.decode(value.substr(1, 12));
-    // assume that the last 16 bits contains the maximum id
-    const maxId: number = (numEntries > 0) ? this.numberEncoder.decode(value.substr(value.length - 16, 16)) : 0;
 
-    const idSet = new IdSet([], defaultValue, 1, maxId);
+    const idSet = new IdSet([], defaultValue, 1, this.maxId);
 
     let index = 13;
     for (let i = 0; i < numEntries; i++) {

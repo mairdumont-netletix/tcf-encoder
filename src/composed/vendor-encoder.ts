@@ -8,13 +8,12 @@ import { IdSetRangeEncoder } from "./id-set-range-encoder";
 export class VendorEncoder implements Encoder<IdSet> {
 
   private numberEncoder = new NumberEncoder();
-  private idSetRangeEncoder = new IdSetRangeEncoder();
   private idSetLinearEncoder = new IdSetLinearEncoder();
 
   encode(idSet: IdSet): string {
     // create two different encodings of the same thing: linear and range encoding of vendors
     const vendorLinearBitString = this.idSetLinearEncoder.encode(idSet, idSet.maxId);
-    const vendorRangeBitString = this.idSetRangeEncoder.encode(idSet);
+    const vendorRangeBitString = new IdSetRangeEncoder(idSet.maxId).encode(idSet);
 
     // maxId in 16 bits
     let bitString = this.numberEncoder.encode(idSet.maxId, 16);
@@ -33,7 +32,7 @@ export class VendorEncoder implements Encoder<IdSet> {
     const encodingType: EncodingType = this.numberEncoder.decode(value.substr(16, 1));
     switch (encodingType) {
       case EncodingType.RANGE:
-        idSet = this.idSetRangeEncoder.decode(value.substr(17, value.length - 17));
+        idSet = new IdSetRangeEncoder(maxId).decode(value.substr(17, value.length - 17));
         break;
       case EncodingType.FIELD:
         idSet = this.idSetLinearEncoder.decode(value.substr(17, maxId));
