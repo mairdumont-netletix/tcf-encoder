@@ -1,8 +1,37 @@
+/**
+ * There are 4 distinct TC String segments that are joined together on a “dot” character.
+ */
 export enum SegmentType {
+  // The core vendor transparency and consent details
   CORE = 0,
+  // Disclosed vendors for validating OOB signaling
   VENDORS_DISCLOSED = 1,
+  // Allowed vendors for restricting OOB signaling to select vendors
   VENDORS_ALLOWED = 2,
+  // Publisher purposes transparency and consent for their own data uses
   PUBLISHER_TC = 3,
+}
+
+/**
+ * IsRangeEncoding, 1bit,
+ * The encoding scheme used to encode the IDs in the section – Either a
+ * BitField Section or Range Section follows. Encoding logic should choose
+ * the encoding scheme that results in the smaller output size for a given set.
+ */
+export enum EncodingType {
+  FIELD = 0,
+  RANGE = 1
+}
+
+/**
+ * IsARange, 1bit,
+ * If more than one Vendor ID is included in this RangeEntry then this
+ * describes a range of Vendor IDs and this value is 1.
+ * If only one Vendor ID is included then the value is 0.
+ */
+export enum RangeType {
+  SINGLE_VENDOR_ID = 0,
+  VENDOR_ID_RANGE = 1,
 }
 
 export enum Version {
