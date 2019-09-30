@@ -19,7 +19,7 @@ export class VendorsAllowedSegmentEncoder implements Encoder<TCModel> {
   decode(value: string, tcModel: TCModel = new TCModel()): Decoded<TCModel> {
     const { decoded: bitString, numBits } = this.bitFieldEncoder.decode(value);
     const { decoded: segmentType } = this.numberEncoder.decode(bitString.substr(0, 3));
-    if (segmentType !== SegmentType.VENDORS_DISCLOSED) throw new Error('invalid segmentType');
+    if (segmentType !== SegmentType.VENDORS_ALLOWED) throw new Error('invalid segmentType');
     const { decoded: idSet } = this.vendorEncoder.decode(bitString.substr(3));
     idSet.forEachBit((enabled: boolean, vendorId: number) => {
       if (enabled) {
