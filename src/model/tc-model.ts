@@ -1,13 +1,17 @@
 import { PurposeInfo } from "@mdnx/tcf-types";
 import { TCModelError } from "../error/tc-model-error";
+import { GVL } from "../gvl/gvl";
 import { IdMap } from "../interfaces";
 import { isIntegerGreaterThan } from "../utils";
 import { IdSet } from "./id-set";
 
 export class TCModel /*implements TCData*/ {
 
+  private tcfPolicyVersion_: number = 2;
   private cmpId_: number = 0;
   private cmpVersion_: number = 0;
+
+  private gvl_?: GVL;
 
   private created_: Date = new Date();
   private lastUpdated_: Date = new Date();
@@ -26,6 +30,38 @@ export class TCModel /*implements TCData*/ {
 
   public readonly vendorsDisclosed: IdSet = new IdSet();
   public readonly vendorsAllowed: IdSet = new IdSet();
+
+  constructor(gvl?: GVL) {
+    this.gvl = gvl;
+  }
+
+  public set gvl(gvl: GVL | undefined) {
+    if (gvl) {
+      if (this.gvl_ !== undefined) {
+        throw new Error('you should set gvl only once');
+      }
+      this.gvl_ = gvl;
+      this.vendorListVersion = gvl.vendorListVersion;
+      this.tcfPolicyVersion = gvl.tcfPolicyVersion;
+      // TODO
+    }
+  }
+
+  public get gvl(): GVL | undefined {
+    return this.gvl_;
+  }
+
+  public set tcfPolicyVersion(value: number) {
+    if (isIntegerGreaterThan(value, 1)) {
+      this.tcfPolicyVersion_ = value;
+    } else {
+      throw new TCModelError('tcfPolicyVersion', value);
+    }
+  }
+
+  public get tcfPolicyVersion(): number {
+    return this.tcfPolicyVersion_;
+  }
 
   public set cmpId(value: number) {
     if (isIntegerGreaterThan(value, 1)) {
