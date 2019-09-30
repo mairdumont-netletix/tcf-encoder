@@ -3,6 +3,7 @@ import { SegmentType, Version } from "./constants";
 import { Decoded, Encoder } from "./interfaces";
 import { TCModel } from "./model/tc-model";
 import { segmentEncoderLookup } from "./segment/segment-encoder-lookup";
+import { inspectFirstBits } from "./utils";
 
 export class TCModelEncoder implements Encoder<TCModel> {
 
@@ -30,16 +31,13 @@ export class TCModelEncoder implements Encoder<TCModel> {
 
     if (segments.length) {
       // decode segment 0
-      const { decoded: firstCharInBits } = new BitFieldEncoder().decode(segments[0][0]);
-      const { decoded: version } = new NumberEncoder().decode(firstCharInBits.substr(0, 6));
-      segmentEncoderLookup(version, SegmentType.CORE)!.decode(segments[0], tcModel);
+      const version = inspectFirstBits(segments[0], 6);
+      const segmentEncoder = segmentEncoderLookup(version, SegmentType.CORE);
+      segmentEncoder!.decode(segments[0], tcModel);
       // decode segment 1 - 3 if available
       for (let i = 1; i < segments.length; i++) {
         const segment: string = segments[i];
-        // first char will contain 6 bits, we only need the first 3
-        const { decoded: segTypeBits } = bitFieldEncoder.decode(segment.charAt(0));
-        const { decoded: segType } = numberEncoder.decode(segTypeBits.substr(0, 3));
-
+        const segType = inspectFirstBits(segment, 3);
         const segmentEncoder = segmentEncoderLookup(version, segType);
         if (segmentEncoder) {
           segmentEncoder.decode(segment, tcModel);
