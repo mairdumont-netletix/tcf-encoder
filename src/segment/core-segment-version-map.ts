@@ -13,6 +13,58 @@ const vendorEncoder = new VendorEncoder();
 const publisherRestrictionsEncoder = new PublisherRestrictionsEncoder();
 
 export const coreSegmentVersionMap: VersionMap = {
+  [Version.V1]: {
+    [Field.VERSION]: {
+      bits: 6,
+      encoder: numberEncoder,
+      value: () => 2,
+    },
+    [Field.CREATED]: {
+      bits: 36,
+      encoder: dateEncoder,
+      value: (m) => m.created,
+    },
+    [Field.LAST_UPDATED]: {
+      bits: 36,
+      encoder: dateEncoder,
+      value: (m) => m.lastUpdated,
+    },
+    [Field.CMP_ID]: {
+      bits: 12,
+      encoder: numberEncoder,
+      value: (m) => m.cmpId,
+    },
+    [Field.CMP_VERSION]: {
+      bits: 12,
+      encoder: numberEncoder,
+      value: (m) => m.cmpVersion,
+    },
+    [Field.CONSENT_SCREEN]: {
+      bits: 6,
+      encoder: numberEncoder,
+      value: (m) => 1, // TODO
+    },
+    [Field.CONSENT_LANGUAGE]: {
+      bits: 12,
+      encoder: languageEncoder,
+      value: (m) => 'DE', // TODO
+    },
+    [Field.VENDOR_LIST_VERSION]: {
+      bits: 12,
+      encoder: numberEncoder,
+      value: (m) => m.vendorListVersion,
+    },
+    [Field.PURPOSE_CONSENTS]: {
+      bits: 24,
+      encoder: bitfieldEncoder,
+      value: (m) => 0, // TODO
+    },
+    [Field.VENDOR_CONSENTS]: {
+      bits: undefined,
+      encoder: vendorEncoder,
+      value: (m) => new IdSet([], true, 1, 100), // TODO
+    },
+  },
   [Version.V2]: {
     [Field.VERSION]: {
       bits: 6,
