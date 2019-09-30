@@ -1,5 +1,5 @@
 import { BitFieldEncoder, NumberEncoder } from "./base";
-import { SegmentType } from "./constants";
+import { SegmentType, Version } from "./constants";
 import { Decoded, Encoder } from "./interfaces";
 import { TCModel } from "./model/tc-model";
 import { segmentEncoderLookup } from "./segment/segment-encoder-lookup";
@@ -15,7 +15,7 @@ export class TCModelEncoder implements Encoder<TCModel> {
     ];
 
     return segmentsToEncode
-      .map(segmentEncoderLookup)
+      .map((segment) => segmentEncoderLookup(Version.V2, segment))
       .map(encoder => encoder && encoder.encode(value))
       .filter(encoded => encoded)
       .join('.');
@@ -30,7 +30,9 @@ export class TCModelEncoder implements Encoder<TCModel> {
 
     if (segments.length) {
       // decode segment 0
-      segmentEncoderLookup(SegmentType.CORE)!.decode(segments[0], tcModel);
+      const { decoded: firstCharInBits } = new BitFieldEncoder().decode(segments[0][0]);
+      const { decoded: version } = new NumberEncoder().decode(firstCharInBits.substr(0, 6));
+      segmentEncoderLookup(version, SegmentType.CORE)!.decode(segments[0], tcModel);
       // decode segment 1 - 3 if available
       for (let i = 1; i < segments.length; i++) {
         const segment: string = segments[i];
@@ -38,7 +40,7 @@ export class TCModelEncoder implements Encoder<TCModel> {
         const { decoded: segTypeBits } = bitFieldEncoder.decode(segment.charAt(0));
         const { decoded: segType } = numberEncoder.decode(segTypeBits.substr(0, 3));
 
-        const segmentEncoder = segmentEncoderLookup(segType);
+        const segmentEncoder = segmentEncoderLookup(version, segType);
         if (segmentEncoder) {
           segmentEncoder.decode(segment, tcModel);
         }

@@ -29,5 +29,5 @@ export type FieldMap = {
 }
 
 export type VersionMap = {
-  [version in Version]?: FieldMap;
+  [version in Version]: FieldMap;
 }
