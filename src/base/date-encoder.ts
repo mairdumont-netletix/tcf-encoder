@@ -1,4 +1,4 @@
-import { Encoder } from '../interfaces';
+import { Decoded, Encoder } from '../interfaces';
 import { NumberEncoder } from './number-encoder';
 
 export class DateEncoder implements Encoder<Date> {
@@ -10,8 +10,11 @@ export class DateEncoder implements Encoder<Date> {
     return this.numberEncoder.encode(int, numBits);
   }
 
-  decode(value: string): Date {
-    const int = this.numberEncoder.decode(value);
-    return new Date(int * 100);
+  decode(value: string): Decoded<Date> {
+    const { numBits, decoded } = this.numberEncoder.decode(value);
+    return {
+      numBits,
+      decoded: new Date(decoded * 100),
+    }
   }
 }

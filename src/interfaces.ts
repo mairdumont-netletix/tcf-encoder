@@ -1,9 +1,15 @@
 import { Field, Version } from "./constants";
 import { TCModel } from "./model/tc-model";
 
+export interface Decoded<T> {
+  numBits: number;
+  decoded: T;
+  rest?: string;
+}
+
 export interface Encoder<T> {
   encode(value: T, numBits?: number): string;
-  decode(value: string, target?: T): T;
+  decode(value: string, target?: T): Decoded<T>;
 }
 
 export interface IdMap<T> {

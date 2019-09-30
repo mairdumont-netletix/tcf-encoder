@@ -21,8 +21,8 @@ describe('TCModel', (): void => {
     expect(tcModel.vendorListVersion).toBe(2);
     expect(tcModel.tcfPolicyVersion).toBe(2);
     expect(tcModel.created).toBeDefined();
-    expect(tcModel.created.getTime()).toBeGreaterThan(date.getTime());
+    expect(tcModel.created.getTime()).toBeGreaterThanOrEqual(date.getTime());
     expect(tcModel.lastUpdated).toBeDefined();
-    expect(tcModel.lastUpdated.getTime()).toBeGreaterThan(date.getTime());
+    expect(tcModel.lastUpdated.getTime()).toBeGreaterThanOrEqual(date.getTime());
   })
 });

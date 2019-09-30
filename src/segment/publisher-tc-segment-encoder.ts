@@ -1,7 +1,7 @@
 import { BitFieldEncoder, NumberEncoder } from "../base";
 import { IdSetLinearEncoder } from "../composed";
 import { Field, SegmentType } from "../constants";
-import { Encoder, FieldMap } from "../interfaces";
+import { Decoded, Encoder, FieldMap } from "../interfaces";
 import { TCModel } from "../model/tc-model";
 
 export class PublisherTCSegmentEncoder implements Encoder<TCModel> {
@@ -55,7 +55,10 @@ export class PublisherTCSegmentEncoder implements Encoder<TCModel> {
     return this.bitfieldEncoder.encode(bitField);
   }
 
-  decode(value: string, tcModel: TCModel): TCModel {
-    return tcModel;
+  decode(value: string, tcModel: TCModel): Decoded<TCModel> {
+    return {
+      numBits: 0,
+      decoded: tcModel
+    }
   }
 }

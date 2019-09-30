@@ -36,7 +36,7 @@ describe('NumberEncoder', (): void => {
     it('should decode an int and pad zeros to fill width', (): void => {
       const theInt = 10;
       const binaryString = '000' + theInt.toString(2);
-      const decoded = encoder.decode(binaryString);
+      const { decoded } = encoder.decode(binaryString);
       expect(decoded).toBe(theInt);
     });
   });

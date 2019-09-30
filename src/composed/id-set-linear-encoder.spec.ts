@@ -28,7 +28,7 @@ describe('IdSetLinearEncoder', (): void => {
     it('should decode a idSet', (): void => {
       const idSetBits = '01100011101';
 
-      const idSet = encoder.decode(idSetBits);
+      const { decoded: idSet } = encoder.decode(idSetBits);
 
       expect(idSet.maxId).toBe(idSetBits.length);
 

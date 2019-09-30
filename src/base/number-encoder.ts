@@ -1,4 +1,4 @@
-import { Encoder } from '../interfaces';
+import { Decoded, Encoder } from '../interfaces';
 
 export class NumberEncoder implements Encoder<number> {
 
@@ -17,7 +17,10 @@ export class NumberEncoder implements Encoder<number> {
     return bitString;
   }
 
-  decode(value: string): number {
-    return parseInt(value, 2);
+  decode(value: string): Decoded<number> {
+    return {
+      numBits: value.length,
+      decoded: parseInt(value, 2),
+    }
   }
 }

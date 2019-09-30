@@ -1,5 +1,5 @@
 import { NumberEncoder } from "../base";
-import { Encoder } from "../interfaces";
+import { Decoded, Encoder } from "../interfaces";
 import { PublisherRestrictions } from "../model";
 
 export class PublisherRestrictionsEncoder implements Encoder<PublisherRestrictions> {
@@ -13,8 +13,11 @@ export class PublisherRestrictionsEncoder implements Encoder<PublisherRestrictio
     return bitString;
   }
 
-  decode(value: string): PublisherRestrictions {
+  decode(value: string): Decoded<PublisherRestrictions> {
     // TODO: implement decoding
-    return new PublisherRestrictions();
+    return {
+      numBits: value.length,
+      decoded: new PublisherRestrictions(),
+    }
   }
 }

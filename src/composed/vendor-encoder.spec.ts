@@ -40,14 +40,14 @@ describe('VendorEncoder', (): void => {
     it('should produce same IdSet when encoding and decoding a range', (): void => {
       const input = new IdSet([1, 2, 3, 4, 5, 6, 50, 101, 102, 103, 104]);
       const encoded = encoder.encode(input, input.maxId);
-      const decoded = encoder.decode(encoded);
+      const { decoded } = encoder.decode(encoded);
       expect(decoded).toStrictEqual(input);
     });
 
     it('should produce same IdSet when encoding and decoding a bitstring', (): void => {
       const input = new IdSet([1, 3, 5, 7, 8]);
       const encoded = encoder.encode(input, input.maxId);
-      const decoded = encoder.decode(encoded);
+      const { decoded } = encoder.decode(encoded);
       expect(decoded).toStrictEqual(input);
     });
   });

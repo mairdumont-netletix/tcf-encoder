@@ -1,6 +1,6 @@
 import { NumberEncoder } from "../base";
 import { EncodingType } from "../constants";
-import { Encoder } from "../interfaces";
+import { Decoded, Encoder } from "../interfaces";
 import { IdSet } from "../model";
 import { IdSetLinearEncoder } from "./id-set-linear-encoder";
 import { IdSetRangeEncoder } from "./id-set-range-encoder";
@@ -26,18 +26,25 @@ export class VendorEncoder implements Encoder<IdSet> {
     return bitString;
   }
 
-  decode(value: string): IdSet {
-    let idSet: IdSet = new IdSet();
-    const maxId: number = this.numberEncoder.decode(value.substr(0, 16));
-    const encodingType: EncodingType = this.numberEncoder.decode(value.substr(16, 1));
+  decode(value: string): Decoded<IdSet> {
+    const { numBits: maxIdBits, decoded: maxId } = this.numberEncoder.decode(value.substr(0, 16));
+    const { numBits: encodingTypeBits, decoded: encodingType } = this.numberEncoder.decode(value.substr(16, 1));
     switch (encodingType) {
       case EncodingType.RANGE:
-        idSet = new IdSetRangeEncoder(maxId).decode(value.substr(17, value.length - 17));
-        break;
+        const decoder = new IdSetRangeEncoder(maxId);
+        const { numBits: rangeBits, decoded: rangeDecoded } = decoder.decode(value.substr(17, value.length - 17));
+        return {
+          numBits: maxIdBits + encodingTypeBits + rangeBits,
+          decoded: rangeDecoded,
+        }
       case EncodingType.FIELD:
-        idSet = this.idSetLinearEncoder.decode(value.substr(17, maxId));
-        break;
+        const { numBits, decoded } = this.idSetLinearEncoder.decode(value.substr(17, maxId));
+        return {
+          numBits: maxIdBits + encodingTypeBits + numBits,
+          decoded,
+        }
+      default:
+        throw new Error('invalid encodingType');
     }
-    return idSet;
   }
 }

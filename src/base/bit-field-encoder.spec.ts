@@ -21,7 +21,7 @@ describe('BitFieldEncoder', (): void => {
   const shouldEncodeAndDecode = (input: string) => {
     it(`should encode and decode ${input.length} bit long input`, (): void => {
       const encoded = encoder.encode(input);
-      const decoded = encoder.decode(encoded);
+      const { decoded } = encoder.decode(encoded);
 
       // there might be some additional zeros added to the end if the string is
       // an arbitrary length and doesn't fit evenly into 6 bits

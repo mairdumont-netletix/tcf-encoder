@@ -2,7 +2,7 @@ import { BitFieldEncoder, BooleanEncoder, DateEncoder, NumberEncoder } from "../
 import { IdSetLinearEncoder, LanguageEncoder, VendorEncoder } from "../composed";
 import { PublisherRestrictionsEncoder } from "../composed/publisher-restrictions-encoder";
 import { Field } from "../constants";
-import { Encoder, FieldMap } from "../interfaces";
+import { Decoded, Encoder, FieldMap } from "../interfaces";
 import { IdSet } from "../model";
 import { TCModel } from "../model/tc-model";
 
@@ -112,7 +112,7 @@ export class CoreSegmentEncoder implements Encoder<TCModel> {
       bits: undefined,
       encoder: this.publisherRestrictionsEncoder,
       value: (m) => undefined, // TODO
-    }
+    },
     // TODO: many more
   }
 
@@ -128,18 +128,22 @@ export class CoreSegmentEncoder implements Encoder<TCModel> {
     return this.bitfieldEncoder.encode(bitField);
   }
 
-  decode(value: string, tcModel: TCModel): TCModel {
-    const bitField = this.bitfieldEncoder.decode(value);
-    let position = 0;
+  decode(value: string, tcModel: TCModel): Decoded<TCModel> {
+    const { numBits, decoded: bitField } = this.bitfieldEncoder.decode(value);
+    let position = numBits;
     for (const field in this.fieldMap) {
       const fieldInfo = this.fieldMap[field as Field];
       if (fieldInfo) {
         const { bits, encoder } = fieldInfo;
         const chunk = bitField.substr(position, bits);
-        const decoded = encoder.decode(chunk);
-        position += bits || 0; // TODO: bits undefined?
+        const { numBits, decoded } = encoder.decode(chunk);
+        position += numBits;
+        // console.log(field, decoded);
       }
     }
-    return tcModel;
+    return {
+      numBits: position,
+      decoded: tcModel,
+    }
   }
 }

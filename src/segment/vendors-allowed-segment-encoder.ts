@@ -1,7 +1,7 @@
 import { BitFieldEncoder, NumberEncoder } from "../base";
 import { VendorEncoder } from "../composed";
 import { SegmentType } from "../constants";
-import { Encoder } from "../interfaces";
+import { Decoded, Encoder } from "../interfaces";
 import { TCModel } from "../model/tc-model";
 
 export class VendorsAllowedSegmentEncoder implements Encoder<TCModel> {
@@ -16,14 +16,19 @@ export class VendorsAllowedSegmentEncoder implements Encoder<TCModel> {
     return this.bitFieldEncoder.encode(bitString);
   }
 
-  decode(value: string, tcModel: TCModel = new TCModel()): TCModel {
-    const bitString: string = this.bitFieldEncoder.decode(value);
-    const idSet = this.vendorEncoder.decode(bitString.substr(3));
+  decode(value: string, tcModel: TCModel = new TCModel()): Decoded<TCModel> {
+    const { decoded: bitString, numBits } = this.bitFieldEncoder.decode(value);
+    const { decoded: segmentType } = this.numberEncoder.decode(value.substr(0, 3));
+    if (segmentType !== SegmentType.VENDORS_DISCLOSED) throw new Error('invalid segmentType');
+    const { decoded: idSet } = this.vendorEncoder.decode(bitString.substr(3));
     idSet.forEachBit((enabled: boolean, vendorId: number) => {
       if (enabled) {
         tcModel.vendorsAllowed.add(vendorId);
       }
     });
-    return tcModel;
+    return {
+      numBits,
+      decoded: tcModel,
+    }
   }
 }

@@ -23,7 +23,6 @@ describe('DateEncoder', (): void => {
 
       expect(encoded.length).toBe(numBits);
       expect(encoded).toBe(expected);
-
     });
 
     it(`should not encode a Date into 26 bits`, (): void => {
@@ -38,7 +37,7 @@ describe('DateEncoder', (): void => {
     it(`should decode a Date`, (): void => {
       const date: Date = new Date();
       const encoded = encoder.encode(date, 36);
-      const decoded = encoder.decode(encoded);
+      const { decoded } = encoder.decode(encoded);
       const expected = Math.round(date.getTime() / 100) * 100;
       expect(decoded.getTime()).toBe(expected);
     });

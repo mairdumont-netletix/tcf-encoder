@@ -35,6 +35,14 @@ export class IdSet implements Set<number> {
     return this.set_.size;
   }
 
+  set(value: number, enabled: boolean) {
+    if (enabled) {
+      this.add(value);
+    } else {
+      this.delete(value);
+    }
+  }
+
   add(value: number): this {
     if (!(Number.isInteger(value) && value > 0)) {
       throw new Error('value must be positive integer');

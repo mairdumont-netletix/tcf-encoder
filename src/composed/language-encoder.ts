@@ -1,5 +1,5 @@
 import { NumberEncoder } from "../base";
-import { Encoder } from "../interfaces";
+import { Decoded, Encoder } from "../interfaces";
 
 export class LanguageEncoder implements Encoder<string> {
 
@@ -26,13 +26,16 @@ export class LanguageEncoder implements Encoder<string> {
     return firstLetterEncoded + secondLetterEncoded;
   }
 
-  decode(value: string): string {
+  decode(value: string): Decoded<string> {
     if (value.length % 2 === 1) {
       throw new Error('numBits must be even');
     }
     const halfLength = value.length / 2;
-    const firstLetterNumber = this.numberEncoder.decode(value.slice(0, halfLength));
-    const secondLetterNumber = this.numberEncoder.decode(value.slice(halfLength));
-    return this.DICT[firstLetterNumber] + this.DICT[secondLetterNumber];
+    const { numBits: firstLetterBits, decoded: firstLetterNumber } = this.numberEncoder.decode(value.slice(0, halfLength));
+    const { numBits: secondLetterBits, decoded: secondLetterNumber } = this.numberEncoder.decode(value.slice(halfLength));
+    return {
+      numBits: firstLetterBits + secondLetterBits,
+      decoded: this.DICT[firstLetterNumber] + this.DICT[secondLetterNumber],
+    }
   }
 }

@@ -1,5 +1,5 @@
 import { BooleanEncoder } from '../base/boolean-encoder';
-import { Encoder } from '../interfaces';
+import { Decoded, Encoder } from '../interfaces';
 import { IdSet } from '../model/id-set';
 
 export class IdSetLinearEncoder implements Encoder<IdSet> {
@@ -14,13 +14,18 @@ export class IdSetLinearEncoder implements Encoder<IdSet> {
     return bitString;
   }
 
-  decode(value: string): IdSet {
+  decode(value: string): Decoded<IdSet> {
     const idSet: IdSet = new IdSet();
-    for (let i = 1; i <= value.length; i++) {
-      if (this.booleanEncoder.decode(value[i - 1])) {
+    const len = value.length;
+    for (let i = 1; i <= len; i++) {
+      const { decoded: isTrue } = this.booleanEncoder.decode(value[i - 1]);
+      if (isTrue) {
         idSet.add(i);
       }
     }
-    return idSet;
+    return {
+      numBits: len,
+      decoded: idSet,
+    }
   }
 }

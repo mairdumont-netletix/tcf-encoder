@@ -1,6 +1,6 @@
 import { BooleanEncoder, NumberEncoder } from "../base";
 import { RangeType } from "../constants";
-import { Encoder } from "../interfaces";
+import { Decoded, Encoder } from "../interfaces";
 import { IdSet } from "../model";
 
 export class IdSetRangeEncoder implements Encoder<IdSet> {
@@ -31,38 +31,36 @@ export class IdSetRangeEncoder implements Encoder<IdSet> {
     return bitString;
   }
 
-  decode(value: string): IdSet {
+  decode(value: string): Decoded<IdSet> {
     // read defaultValue, 1 bit
-    const defaultValue: boolean = this.booleanEncoder.decode(value.charAt(0));
+    const { numBits: defaultBits, decoded: defaultValue } = this.booleanEncoder.decode(value.charAt(0));
     // read numEntries to process, 12 bit
-    const numEntries: number = this.numberEncoder.decode(value.substr(1, 12));
+    const { numBits: numEntiesBits, decoded: numEntries } = this.numberEncoder.decode(value.substr(1, 12));
 
     const idSet = new IdSet([], defaultValue, 1, this.maxId);
 
-    let index = 13;
+    let index = defaultBits + numEntiesBits;
     for (let i = 0; i < numEntries; i++) {
-      const rangeType: number = this.numberEncoder.decode(value.charAt(index++));
+      const { numBits: rangeTypeBits, decoded: rangeType } = this.numberEncoder.decode(value.charAt(index));
+      index += rangeTypeBits;
+
+      const { numBits: firstIdBits, decoded: firstId } = this.numberEncoder.decode(value.substr(index, 16));
+      index += firstIdBits;
+
       if (rangeType === RangeType.SINGLE_ID) {
-        const singleId: number = this.numberEncoder.decode(value.substr(index, 16));
-        index += 16;
-        if (defaultValue) {
-          idSet.delete(singleId);
-        } else {
-          idSet.add(singleId);
-        }
+        idSet.set(firstId, !defaultValue);
       } else if (rangeType === RangeType.ID_RANGE) {
-        const firstId: number = this.numberEncoder.decode(value.substr(index, 16));
-        const secondId: number = this.numberEncoder.decode(value.substr(index + 16, 16));
-        index += 32;
-        for (let singleId = firstId; singleId <= secondId; singleId++) {
-          if (defaultValue) {
-            idSet.delete(singleId);
-          } else {
-            idSet.add(singleId);
-          }
+        const { numBits: secondIdBits, decoded: secondId } = this.numberEncoder.decode(value.substr(index, 16));
+        index += secondIdBits;
+
+        for (let id = firstId; id <= secondId; id++) {
+          idSet.set(id, !defaultValue);
         }
       }
     }
-    return idSet;
+    return {
+      numBits: index,
+      decoded: idSet,
+    };
   }
 }

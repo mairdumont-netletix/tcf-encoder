@@ -1,5 +1,5 @@
 import { BitField } from '@mdnx/tcf-types';
-import { Encoder } from '../interfaces';
+import { Decoded, Encoder } from '../interfaces';
 
 export class BitFieldEncoder implements Encoder<BitField> {
 
@@ -38,7 +38,7 @@ export class BitFieldEncoder implements Encoder<BitField> {
     return retr;
   }
 
-  decode(value: string): BitField {
+  decode(value: string): Decoded<BitField> {
     // should contain only characters from the base64url set
     if (!/^[A-Za-z0-9\-_]+$/.test(value)) {
       throw new Error('Invalid Base64url Encoding');
@@ -55,6 +55,9 @@ export class BitFieldEncoder implements Encoder<BitField> {
       // build BitField
       bitField += pad + strBits;
     }
-    return bitField;
+    return {
+      numBits: len,
+      decoded: bitField,
+    };
   }
 }

@@ -23,11 +23,13 @@ describe('BooleanEncoder', (): void => {
   describe('decode', (): void => {
 
     it('should decode 1 to true', (): void => {
-      expect(encoder.decode('1')).toBe(true);
+      const { decoded } = encoder.decode('1');
+      expect(decoded).toBe(true);
     });
 
     it('should decode 0 to false', (): void => {
-      expect(encoder.decode('0')).toBe(false);
+      const { decoded } = encoder.decode('0');
+      expect(decoded).toBe(false);
     });
   });
 });
