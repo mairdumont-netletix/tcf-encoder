@@ -27,6 +27,9 @@ export class LanguageEncoder implements Encoder<string> {
   }
 
   decode(value: string): Decoded<string> {
+    if (value.length < 2) {
+      throw new Error('Invalid Language Code');
+    }
     if (value.length % 2 === 1) {
       throw new Error('numBits must be even');
     }
