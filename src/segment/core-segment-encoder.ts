@@ -22,8 +22,8 @@ export class CoreSegmentEncoder implements Encoder<TCModel> {
   }
 
   decode(value: string, tcModel: TCModel): Decoded<TCModel> {
-    const { numBits, decoded: bitField } = this.bitfieldEncoder.decode(value);
-    let position = numBits;
+    const { decoded: bitField } = this.bitfieldEncoder.decode(value);
+    let position = 0;
     const fieldMap = coreSegmentVersionMap[Version.V2];
     for (const field in fieldMap) {
       const fieldInfo = fieldMap[field as Field];
