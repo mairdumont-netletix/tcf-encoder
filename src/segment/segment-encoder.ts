@@ -21,7 +21,7 @@ export class SegmentEncoder implements Encoder<TCModel> {
         bitField += getEncoder().encode(value, bits);
       }
     }
-    return BitFieldEncoder.getInstance().encode(bitField);
+    return bitField.length ? BitFieldEncoder.getInstance().encode(bitField) : '';
   }
 
   decode(value: string, tcModel: TCModel): Decoded<TCModel> {
