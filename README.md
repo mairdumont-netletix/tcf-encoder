@@ -12,3 +12,8 @@ For more details see [Transparency and Consent Framework](https://github.com/Int
 ```bash
 npm install @mdnx/tcf-encoder --save
 ```
+
+## Related Links
+
+- [Online Consent String Decoder TCString (TCF 1 only)](https://www.decodeconsentstring.com/v1.0/)
+- [Quantcast GDPR Consent Cookie workshop (TCF 1 only)](http://gdpr-demo.labs.quantcast.com/user-examples/cookie-workshop.html)
