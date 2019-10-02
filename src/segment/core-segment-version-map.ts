@@ -170,11 +170,11 @@ export const coreSegmentVersionMap: VersionMap = {
       getValue: (m) => m.vendorConsents,
       setValue: (m, v) => v.forEach(id => m.vendorConsents.add(id)),
     },
-    [Field.VENDOR_LEGITIMATE_INTEREST]: {
+    [Field.VENDOR_LEGITIMATE_INTEREST]: <FieldInfo<IdSet>>{
       bits: undefined,
       getEncoder: VendorEncoder.getInstance,
       getValue: (m) => m.vendorLegitimateInterest,
-      setValue: (m, v) => m.vendorListVersion = v,
+      setValue: (m, v) => v.forEach(id => m.vendorLegitimateInterest.add(id)),
     },
     [Field.PUBLISHER_RESTRICTIONS]: {
       bits: undefined,
