@@ -1,6 +1,6 @@
 import { BitField } from "@mdnx/tcf-types";
 import { BitFieldEncoder, BooleanEncoder, DateEncoder, NumberEncoder } from "../base";
-import { LanguageEncoder, PublisherRestrictionsEncoder, VendorEncoder } from "../composed";
+import { IdSetLinearEncoder, LanguageEncoder, PublisherRestrictionsEncoder, VendorEncoder } from "../composed";
 import { Field, Version } from "../constants";
 import { FieldInfo, VersionMap } from "../interfaces";
 import { IdSet } from "../model";
@@ -10,6 +10,7 @@ const numberEncoder = new NumberEncoder();
 const booleanEncoder = new BooleanEncoder();
 const dateEncoder = new DateEncoder();
 const languageEncoder = new LanguageEncoder();
+const idSetLinearEncoder = new IdSetLinearEncoder();
 const vendorEncoder = new VendorEncoder();
 const publisherRestrictionsEncoder = new PublisherRestrictionsEncoder();
 
@@ -63,17 +64,17 @@ export const coreSegmentVersionMap: VersionMap = {
       getValue: (m) => m.vendorListVersion,
       setValue: (m, v) => m.vendorListVersion = v,
     },
-    [Field.PURPOSE_CONSENTS]: <FieldInfo<BitField>>{
+    [Field.PURPOSE_CONSENTS]: <FieldInfo<IdSet>>{
       bits: 24,
-      encoder: bitfieldEncoder,
-      getValue: (m) => '0', // TODO
-      setValue: (m, v) => { },
+      encoder: idSetLinearEncoder,
+      getValue: (m) => m.purposeConsents,
+      setValue: (m, v) => v.forEach(id => m.purposeConsents.add(id)),
     },
     [Field.VENDOR_CONSENTS]: <FieldInfo<IdSet>>{
       bits: undefined,
       encoder: vendorEncoder,
-      getValue: (m) => new IdSet([], true, 1, 100), // TODO
-      setValue: (m, v) => { },
+      getValue: (m) => m.vendorConsents,
+      setValue: (m, v) => v.forEach(id => m.vendorConsents.add(id)),
     },
   },
   [Version.V2]: {

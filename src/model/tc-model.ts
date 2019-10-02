@@ -25,6 +25,9 @@ export class TCModel /*implements TCData*/ {
   public readonly publisherConsents: IdSet = new IdSet();
   public readonly publisherLITransparency: IdSet = new IdSet();
 
+  public readonly vendorConsents: IdSet = new IdSet();
+  public readonly vendorLegitimateInterest: IdSet = new IdSet();
+
   public customPurposes: IdMap<PurposeInfo> = {};
 
   public readonly publisherCustomConsents: IdSet = new IdSet();
