@@ -2,14 +2,14 @@ import { BooleanEncoder, DateEncoder, NumberEncoder } from "../base";
 import { IdSetLinearEncoder, LanguageEncoder, PublisherRestrictionsEncoder, VendorEncoder } from "../composed";
 import { Field, Version } from "../constants";
 import { FieldInfo, VersionMap } from "../interfaces";
-import { IdSet } from "../model";
+import { IdSet, PublisherRestrictions } from "../model";
 
 export const coreSegmentVersionMap: VersionMap = {
   [Version.V1]: {
     [Field.VERSION]: <FieldInfo<number>>{
       bits: 6,
       getEncoder: NumberEncoder.getInstance,
-      getValue: (m) => 1,
+      getValue: (m) => m.version,
       setValue: (m, v) => m.version = 1,
     },
     [Field.CREATED]: <FieldInfo<Date>>{
@@ -71,7 +71,7 @@ export const coreSegmentVersionMap: VersionMap = {
     [Field.VERSION]: <FieldInfo<number>>{
       bits: 6,
       getEncoder: NumberEncoder.getInstance,
-      getValue: (m) => 2,
+      getValue: (m) => m.version,
       setValue: (m, v) => m.version = 2,
     },
     [Field.CREATED]: <FieldInfo<Date>>{

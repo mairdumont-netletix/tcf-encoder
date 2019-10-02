@@ -1,4 +1,4 @@
-import { SegmentType, Version } from "./constants";
+import { SegmentType } from "./constants";
 import { Decoded, Encoder } from "./interfaces";
 import { TCModel } from "./model/tc-model";
 import { segmentEncoderLookup } from "./segment/segment-encoder-lookup";
@@ -6,7 +6,7 @@ import { inspectFirstBits } from "./utils";
 
 export class TCStringEncoder implements Encoder<TCModel> {
 
-  encode(value: TCModel): string {
+  encode(tcModel: TCModel): string {
     const segmentsToEncode = [
       SegmentType.CORE,
       SegmentType.VENDORS_DISCLOSED,
@@ -15,8 +15,8 @@ export class TCStringEncoder implements Encoder<TCModel> {
     ];
 
     return segmentsToEncode
-      .map((segment) => segmentEncoderLookup(Version.V2, segment))
-      .map(encoder => encoder && encoder.encode(value))
+      .map((segment) => segmentEncoderLookup(tcModel.version, segment))
+      .map(encoder => encoder && encoder.encode(tcModel))
       .filter(encoded => encoded)
       .join('.');
   }
