@@ -23,7 +23,7 @@ describe('TcModelEncoder', (): void => {
     });
   });
 
-  describe('decode', (): void => {
+  describe('decode TCF v1.0', (): void => {
 
     it('should decode [Core] (Version 1, no purposes allowed)', (): void => {
       const tc = 'BObdrPUOevsguAfDqFENCNAAAAAmeAAA';
@@ -71,6 +71,9 @@ describe('TcModelEncoder', (): void => {
       expect(tcModel.purposeConsents.toArray()).toStrictEqual([1, 2, 3, 4, 5]);
       expect(tcModel.vendorConsents.toArray()).toStrictEqual([3, 128, 231, 299]);
     });
+  });
+
+  describe('decode TCF v2.0', (): void => {
 
     it('should decode [Core]', (): void => {
       const tc = 'BObdrPUOevsguAfDqFENCNAAAAAmeAAA';
