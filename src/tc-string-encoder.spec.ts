@@ -1,13 +1,13 @@
 import { Encoder } from './interfaces';
-import { TCModel } from './model/tc-model';
-import { TCModelEncoder } from './tc-model-encoder';
+import { TCModel } from './model';
+import { TCStringEncoder } from './tc-string-encoder';
 
 describe('TcModelEncoder', (): void => {
 
   let encoder: Encoder<TCModel>;
 
   beforeEach(() => {
-    encoder = new TCModelEncoder();
+    encoder = new TCStringEncoder();
   })
 
   describe('encode', (): void => {

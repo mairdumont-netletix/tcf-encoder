@@ -4,7 +4,7 @@ import { TCModel } from "./model/tc-model";
 import { segmentEncoderLookup } from "./segment/segment-encoder-lookup";
 import { inspectFirstBits } from "./utils";
 
-export class TCModelEncoder implements Encoder<TCModel> {
+export class TCStringEncoder implements Encoder<TCModel> {
 
   encode(value: TCModel): string {
     const segmentsToEncode = [
