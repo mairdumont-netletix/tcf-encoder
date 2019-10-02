@@ -10,7 +10,7 @@ export const coreSegmentVersionMap: VersionMap = {
       bits: 6,
       getEncoder: NumberEncoder.getInstance,
       getValue: (m) => 1,
-      setValue: (m, v) => { },
+      setValue: (m, v) => m.version = 1,
     },
     [Field.CREATED]: <FieldInfo<Date>>{
       bits: 36,
@@ -72,7 +72,7 @@ export const coreSegmentVersionMap: VersionMap = {
       bits: 6,
       getEncoder: NumberEncoder.getInstance,
       getValue: (m) => 2,
-      setValue: (m, v) => { },
+      setValue: (m, v) => m.version = 2,
     },
     [Field.CREATED]: <FieldInfo<Date>>{
       bits: 36,
@@ -119,20 +119,20 @@ export const coreSegmentVersionMap: VersionMap = {
     [Field.POLICY_VERSION]: <FieldInfo<number>>{
       bits: 6,
       getEncoder: NumberEncoder.getInstance,
-      getValue: (m) => 1, // TODO
-      setValue: (m, v) => { },
+      getValue: (m) => m.tcfPolicyVersion,
+      setValue: (m, v) => m.tcfPolicyVersion = v,
     },
     [Field.IS_SERVICE_SPECIFIC]: <FieldInfo<boolean>>{
       bits: 1,
       getEncoder: BooleanEncoder.getInstance,
-      getValue: (m) => false, // TODO
-      setValue: (m, v) => { },
+      getValue: (m) => m.isServiceSpecific,
+      setValue: (m, v) => m.isServiceSpecific = v,
     },
     [Field.USE_NON_STANDARD_STACKS]: <FieldInfo<boolean>>{
       bits: 1,
       getEncoder: BooleanEncoder.getInstance,
-      getValue: (m) => false, // TODO
-      setValue: (m, v) => { },
+      getValue: (m) => m.useNonStandardStacks,
+      setValue: (m, v) => m.useNonStandardStacks = v,
     },
     [Field.SPECIAL_FEATURES_OPTINS]: <FieldInfo<IdSet>>{
       bits: 12,
@@ -155,14 +155,14 @@ export const coreSegmentVersionMap: VersionMap = {
     [Field.PURPOSE_ONE_TREATMENT]: <FieldInfo<boolean>>{
       bits: 1,
       getEncoder: BooleanEncoder.getInstance,
-      getValue: (m) => true, // TODO
-      setValue: (m, v) => { },
+      getValue: (m) => m.purposeOneTreatment,
+      setValue: (m, v) => m.purposeOneTreatment = v,
     },
     [Field.PUBLISHER_COUNTRY_CODE]: <FieldInfo<string>>{
       bits: 12,
       getEncoder: LanguageEncoder.getInstance,
-      getValue: (m) => 'DE', // TODO
-      setValue: (m, v) => { },
+      getValue: (m) => m.publisherCountryCode,
+      setValue: (m, v) => m.publisherCountryCode = v,
     },
     [Field.VENDOR_CONSENTS]: <FieldInfo<IdSet>>{
       bits: undefined,
@@ -173,14 +173,14 @@ export const coreSegmentVersionMap: VersionMap = {
     [Field.VENDOR_LEGITIMATE_INTEREST]: {
       bits: undefined,
       getEncoder: VendorEncoder.getInstance,
-      getValue: (m) => new IdSet([], true, 1, 100), // TODO
-      setValue: (m, v) => { },
+      getValue: (m) => m.vendorLegitimateInterest,
+      setValue: (m, v) => m.vendorListVersion = v,
     },
     [Field.PUBLISHER_RESTRICTIONS]: {
       bits: undefined,
       getEncoder: PublisherRestrictionsEncoder.getInstance,
-      getValue: (m) => undefined, // TODO
-      setValue: (m, v) => { },
+      getValue: (m) => m.publisherRestrictions,
+      setValue: (m, v) => { }, // TODO
     },
     // TODO: many more
   },
