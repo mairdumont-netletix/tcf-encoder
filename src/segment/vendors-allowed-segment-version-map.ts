@@ -1,7 +1,8 @@
 import { NumberEncoder } from "../base";
 import { IdSetLinearEncoder } from "../composed";
 import { Field, SegmentType, Version } from "../constants";
-import { VersionMap } from "../interfaces";
+import { FieldInfo, VersionMap } from "../interfaces";
+import { IdSet } from "../model";
 
 const numberEncoder = new NumberEncoder();
 const idSetLinearEncoder = new IdSetLinearEncoder();
@@ -11,15 +12,17 @@ export const vendorsAllowedSegmentVersionMap: VersionMap = {
     // noop
   },
   [Version.V2]: {
-    [Field.SEGMENT_TYPE]: {
+    [Field.SEGMENT_TYPE]: <FieldInfo<number>>{
       bits: 3,
       encoder: numberEncoder,
-      value: () => SegmentType.VENDORS_ALLOWED,
+      getValue: (m) => SegmentType.VENDORS_ALLOWED,
+      setValue: (m, v) => { },
     },
-    [Field.VENDORS_ALLOWED]: {
+    [Field.VENDORS_ALLOWED]: <FieldInfo<IdSet>>{
       bits: undefined,
       encoder: idSetLinearEncoder,
-      value: (m) => m.vendorsAllowed,
+      getValue: (m) => m.vendorsAllowed,
+      setValue: (m, v) => v.forEach(id => m.vendorsAllowed.add(id)),
     },
   },
 }

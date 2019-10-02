@@ -16,8 +16,11 @@ export class SegmentEncoder implements Encoder<TCModel> {
     for (const field in this.fieldMap) {
       const fieldInfo = this.fieldMap[field as Field];
       if (fieldInfo) {
-        const { bits, encoder, value } = fieldInfo;
-        bitField += encoder.encode(value(tcModel), bits);
+        const { bits, encoder, getValue } = fieldInfo;
+        // get a value we need to encode
+        const value = getValue(tcModel);
+        // encode the value with the given encoder into x bits
+        bitField += encoder.encode(value, bits);
       }
     }
     return this.bitfieldEncoder.encode(bitField);
@@ -30,9 +33,14 @@ export class SegmentEncoder implements Encoder<TCModel> {
     for (const field in this.fieldMap) {
       const fieldInfo = this.fieldMap[field as Field];
       if (fieldInfo) {
-        const { bits, encoder } = fieldInfo;
+        const { bits, encoder, setValue } = fieldInfo;
+        // if we fieldinfo contains bit lenght, we split the bitField into chunk
         const chunk = bitField.substr(position, bits);
+        // decode chunk and extract information, numBits contains the number of processed bits
         const { numBits, decoded } = encoder.decode(chunk);
+        // set the decoded value to the model
+        setValue(tcModel, decoded);
+        // increase bit position pointer by number of processed bits
         position += numBits;
         // console.log(bitField, field, decoded);
       }

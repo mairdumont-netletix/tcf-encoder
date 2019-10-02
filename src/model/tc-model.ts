@@ -8,9 +8,11 @@ import { IdSet } from "./id-set";
 export class TCModel /*implements TCData*/ {
 
   private tcfPolicyVersion_: number = 2;
+  private consentScreen_: number = 0;
+
   private cmpId_: number = 0;
   private cmpVersion_: number = 0;
-
+  private consentLanguage_: string = 'EN';
   private gvl_?: GVL;
 
   private created_: Date = new Date();
@@ -61,6 +63,30 @@ export class TCModel /*implements TCData*/ {
 
   public get tcfPolicyVersion(): number {
     return this.tcfPolicyVersion_;
+  }
+
+  public set consentScreen(value: number) {
+    if (isIntegerGreaterThan(value, -1)) {
+      this.consentScreen_ = value;
+    } else {
+      throw new TCModelError('consentScreen', value);
+    }
+  }
+
+  public get consentScreen(): number {
+    return this.consentScreen_;
+  }
+
+  public set consentLanguage(lang: string) {
+    if (/^([A-Za-z]){2}$/.test(lang)) {
+      this.consentLanguage_ = lang.toUpperCase();
+    } else {
+      throw new TCModelError('consentLanguage', lang);
+    }
+  }
+
+  public get consentLanguage(): string {
+    return this.consentLanguage_;
   }
 
   public set cmpId(value: number) {
