@@ -1,5 +1,4 @@
-import { BitField } from "@mdnx/tcf-types";
-import { BitFieldEncoder, BooleanEncoder, DateEncoder, NumberEncoder } from "../base";
+import { BooleanEncoder, DateEncoder, NumberEncoder } from "../base";
 import { IdSetLinearEncoder, LanguageEncoder, PublisherRestrictionsEncoder, VendorEncoder } from "../composed";
 import { Field, Version } from "../constants";
 import { FieldInfo, VersionMap } from "../interfaces";
@@ -72,50 +71,50 @@ export const coreSegmentVersionMap: VersionMap = {
     [Field.VERSION]: <FieldInfo<number>>{
       bits: 6,
       getEncoder: NumberEncoder.getInstance,
-      getValue: () => 2,
+      getValue: (m) => 2,
       setValue: (m, v) => { },
     },
     [Field.CREATED]: <FieldInfo<Date>>{
       bits: 36,
       getEncoder: DateEncoder.getInstance,
       getValue: (m) => m.created,
-      setValue: (m, v) => { },
+      setValue: (m, v) => m.created = v,
     },
     [Field.LAST_UPDATED]: <FieldInfo<Date>>{
       bits: 36,
       getEncoder: DateEncoder.getInstance,
       getValue: (m) => m.lastUpdated,
-      setValue: (m, v) => { },
+      setValue: (m, v) => m.lastUpdated = v,
     },
     [Field.CMP_ID]: <FieldInfo<number>>{
       bits: 12,
       getEncoder: NumberEncoder.getInstance,
       getValue: (m) => m.cmpId,
-      setValue: (m, v) => { },
+      setValue: (m, v) => m.cmpId = v,
     },
     [Field.CMP_VERSION]: <FieldInfo<number>>{
       bits: 12,
       getEncoder: NumberEncoder.getInstance,
       getValue: (m) => m.cmpVersion,
-      setValue: (m, v) => { },
+      setValue: (m, v) => m.cmpVersion = v,
     },
     [Field.CONSENT_SCREEN]: <FieldInfo<number>>{
       bits: 6,
       getEncoder: NumberEncoder.getInstance,
-      getValue: (m) => 1, // TODO
-      setValue: (m, v) => { },
+      getValue: (m) => m.consentScreen,
+      setValue: (m, v) => m.consentScreen = v,
     },
     [Field.CONSENT_LANGUAGE]: <FieldInfo<string>>{
       bits: 12,
       getEncoder: LanguageEncoder.getInstance,
-      getValue: (m) => 'DE', // TODO
-      setValue: (m, v) => { },
+      getValue: (m) => m.consentLanguage,
+      setValue: (m, v) => m.consentLanguage = v,
     },
     [Field.VENDOR_LIST_VERSION]: <FieldInfo<number>>{
       bits: 12,
       getEncoder: NumberEncoder.getInstance,
       getValue: (m) => m.vendorListVersion,
-      setValue: (m, v) => { },
+      setValue: (m, v) => m.vendorListVersion = v,
     },
     [Field.POLICY_VERSION]: <FieldInfo<number>>{
       bits: 6,
@@ -135,23 +134,23 @@ export const coreSegmentVersionMap: VersionMap = {
       getValue: (m) => false, // TODO
       setValue: (m, v) => { },
     },
-    [Field.SPECIAL_FEATURES_OPTINS]: <FieldInfo<BitField>>{
+    [Field.SPECIAL_FEATURES_OPTINS]: <FieldInfo<IdSet>>{
       bits: 12,
-      getEncoder: BitFieldEncoder.getInstance,
-      getValue: (m) => '0', // TODO
-      setValue: (m, v) => { },
+      getEncoder: IdSetLinearEncoder.getInstance,
+      getValue: (m) => m.specialFeatureOptIns,
+      setValue: (m, v) => v.forEach(id => m.specialFeatureOptIns.add(id)),
     },
-    [Field.PURPOSE_CONSENTS]: <FieldInfo<BitField>>{
+    [Field.PURPOSE_CONSENTS]: <FieldInfo<IdSet>>{
       bits: 24,
-      getEncoder: BitFieldEncoder.getInstance,
-      getValue: (m) => '0', // TODO
-      setValue: (m, v) => { },
+      getEncoder: IdSetLinearEncoder.getInstance,
+      getValue: (m) => m.purposeConsents,
+      setValue: (m, v) => v.forEach(id => m.purposeConsents.add(id)),
     },
-    [Field.PURPOSE_LI_TRANSPARENCY]: <FieldInfo<BitField>>{
+    [Field.PURPOSE_LI_TRANSPARENCY]: <FieldInfo<IdSet>>{
       bits: 24,
-      getEncoder: BitFieldEncoder.getInstance,
-      getValue: (m) => '0', // TODO
-      setValue: (m, v) => { },
+      getEncoder: IdSetLinearEncoder.getInstance,
+      getValue: (m) => m.purposeLITransparency,
+      setValue: (m, v) => v.forEach(id => m.purposeLITransparency.add(id)),
     },
     [Field.PURPOSE_ONE_TREATMENT]: <FieldInfo<boolean>>{
       bits: 1,
@@ -159,17 +158,17 @@ export const coreSegmentVersionMap: VersionMap = {
       getValue: (m) => true, // TODO
       setValue: (m, v) => { },
     },
-    [Field.PUBLISHER_COUNTRY_CODE]: {
+    [Field.PUBLISHER_COUNTRY_CODE]: <FieldInfo<string>>{
       bits: 12,
       getEncoder: LanguageEncoder.getInstance,
       getValue: (m) => 'DE', // TODO
       setValue: (m, v) => { },
     },
-    [Field.VENDOR_CONSENTS]: {
+    [Field.VENDOR_CONSENTS]: <FieldInfo<IdSet>>{
       bits: undefined,
       getEncoder: VendorEncoder.getInstance,
-      getValue: (m) => new IdSet([], true, 1, 100), // TODO
-      setValue: (m, v) => { },
+      getValue: (m) => m.vendorConsents,
+      setValue: (m, v) => v.forEach(id => m.vendorConsents.add(id)),
     },
     [Field.VENDOR_LEGITIMATE_INTEREST]: {
       bits: undefined,

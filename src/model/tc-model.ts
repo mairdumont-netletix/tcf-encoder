@@ -20,7 +20,9 @@ export class TCModel /*implements TCData*/ {
   private vendorListVersion_: number = 0;
 
   public readonly specialFeatureOptIns: IdSet = new IdSet();
+
   public readonly purposeConsents: IdSet = new IdSet();
+  public readonly purposeLITransparency: IdSet = new IdSet();
 
   public readonly publisherConsents: IdSet = new IdSet();
   public readonly publisherLITransparency: IdSet = new IdSet();
