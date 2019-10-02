@@ -7,7 +7,7 @@ describe('IdSetLinearEncoder', (): void => {
   let encoder: Encoder<IdSet>;
 
   beforeEach(() => {
-    encoder = new IdSetLinearEncoder();
+    encoder = IdSetLinearEncoder.getInstance();
   })
 
   describe('encode', (): void => {

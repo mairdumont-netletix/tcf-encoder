@@ -6,7 +6,7 @@ describe('LanguageEncoder', (): void => {
   let encoder: Encoder<string>;
 
   beforeEach(() => {
-    encoder = new LanguageEncoder();
+    encoder = LanguageEncoder.getInstance();
   })
 
   describe('encode', (): void => {

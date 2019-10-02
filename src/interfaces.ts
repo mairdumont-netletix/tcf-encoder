@@ -16,12 +16,13 @@ export interface IdMap<T> {
   [id: number]: T;
 }
 
+export type EncoderResolver<T> = () => Encoder<T>;
 export type ValueGetter<T> = (model: TCModel) => T;
 export type ValueSetter<T> = (model: TCModel, value: T) => void;
 
 export interface FieldInfo<T> {
   bits?: number;
-  encoder: Encoder<T>,
+  getEncoder: EncoderResolver<T>,
   getValue: ValueGetter<T>,
   setValue: ValueSetter<T>,
 }

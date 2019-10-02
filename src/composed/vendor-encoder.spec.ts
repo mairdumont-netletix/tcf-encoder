@@ -7,7 +7,7 @@ describe('VendorEncoder', (): void => {
   let encoder: Encoder<IdSet>;
 
   beforeEach(() => {
-    encoder = new VendorEncoder();
+    encoder = VendorEncoder.getInstance();
   })
 
   describe('encode', (): void => {

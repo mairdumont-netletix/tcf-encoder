@@ -7,16 +7,24 @@ import { IdSetRangeEncoder } from "./id-set-range-encoder";
 
 export class VendorEncoder implements Encoder<IdSet> {
 
-  private numberEncoder = new NumberEncoder();
-  private idSetLinearEncoder = new IdSetLinearEncoder();
+  private static instance: VendorEncoder | null;
+
+  public static getInstance() {
+    if (!VendorEncoder.instance) {
+      VendorEncoder.instance = new VendorEncoder();
+    }
+    return VendorEncoder.instance;
+  }
+
+  private constructor() { }
 
   encode(idSet: IdSet): string {
     // create two different encodings of the same thing: linear and range encoding of vendors
-    const vendorLinearBitString = this.idSetLinearEncoder.encode(idSet, idSet.maxId);
+    const vendorLinearBitString = IdSetLinearEncoder.getInstance().encode(idSet, idSet.maxId);
     const vendorRangeBitString = new IdSetRangeEncoder(idSet.maxId).encode(idSet);
 
     // maxId in 16 bits
-    let bitString = this.numberEncoder.encode(idSet.maxId, 16);
+    let bitString = NumberEncoder.getInstance().encode(idSet.maxId, 16);
     // depending of what is shorter, we use linear or range encoding
     if (vendorRangeBitString.length < vendorLinearBitString.length) {
       bitString += EncodingType.RANGE + vendorRangeBitString;
@@ -27,8 +35,9 @@ export class VendorEncoder implements Encoder<IdSet> {
   }
 
   decode(value: string): Decoded<IdSet> {
-    const { numBits: maxIdBits, decoded: maxId } = this.numberEncoder.decode(value.substr(0, 16));
-    const { numBits: encodingTypeBits, decoded: encodingType } = this.numberEncoder.decode(value.substr(16, 1));
+    const numberEncoder = NumberEncoder.getInstance();
+    const { numBits: maxIdBits, decoded: maxId } = numberEncoder.decode(value.substr(0, 16));
+    const { numBits: encodingTypeBits, decoded: encodingType } = numberEncoder.decode(value.substr(16, 1));
     switch (encodingType) {
       case EncodingType.RANGE:
         const decoder = new IdSetRangeEncoder(maxId);
@@ -38,7 +47,7 @@ export class VendorEncoder implements Encoder<IdSet> {
           decoded: rangeDecoded,
         }
       case EncodingType.FIELD:
-        const { numBits, decoded } = this.idSetLinearEncoder.decode(value.substr(17, maxId));
+        const { numBits, decoded } = IdSetLinearEncoder.getInstance().decode(value.substr(17, maxId));
         return {
           numBits: maxIdBits + encodingTypeBits + numBits,
           decoded,

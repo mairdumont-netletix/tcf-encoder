@@ -6,7 +6,7 @@ describe('BooleanEncoder', (): void => {
   let encoder: Encoder<boolean>;
 
   beforeEach(() => {
-    encoder = new BooleanEncoder();
+    encoder = BooleanEncoder.getInstance();
   })
 
   describe('encode', (): void => {

@@ -7,7 +7,7 @@ describe('BitFieldEncoder', (): void => {
   let encoder: Encoder<BitField>;
 
   beforeEach(() => {
-    encoder = new BitFieldEncoder();
+    encoder = BitFieldEncoder.getInstance();
   })
 
   const createRandomBinaryString = (length: number): string => {

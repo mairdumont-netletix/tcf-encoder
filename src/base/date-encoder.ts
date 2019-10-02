@@ -3,15 +3,24 @@ import { NumberEncoder } from './number-encoder';
 
 export class DateEncoder implements Encoder<Date> {
 
-  private numberEncoder = new NumberEncoder();
+  private static instance: DateEncoder | null;
+
+  public static getInstance() {
+    if (!DateEncoder.instance) {
+      DateEncoder.instance = new DateEncoder();
+    }
+    return DateEncoder.instance;
+  }
+
+  private constructor() { }
 
   encode(value: Date, numBits: number): string {
     const int = Math.round(value.getTime() / 100);
-    return this.numberEncoder.encode(int, numBits);
+    return NumberEncoder.getInstance().encode(int, numBits);
   }
 
   decode(value: string): Decoded<Date> {
-    const { numBits, decoded } = this.numberEncoder.decode(value);
+    const { numBits, decoded } = NumberEncoder.getInstance().decode(value);
     return {
       numBits,
       decoded: new Date(decoded * 100),

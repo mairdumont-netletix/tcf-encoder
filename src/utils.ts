@@ -1,12 +1,9 @@
 import { BitFieldEncoder, NumberEncoder } from "./base";
 
-const bitFieldEncoder = new BitFieldEncoder();
-const numberEncoder = new NumberEncoder();
-
 // first char will contain 6 bits, we only need the first numBits
 export const inspectFirstBits = (chars: string, numBits: number): number => {
-  const { decoded: firstBits } = bitFieldEncoder.decode(chars[0]);
-  const { decoded: value } = numberEncoder.decode(firstBits.substr(0, numBits));
+  const { decoded: firstBits } = BitFieldEncoder.getInstance().decode(chars[0]);
+  const { decoded: value } = NumberEncoder.getInstance().decode(firstBits.substr(0, numBits));
   return value;
 }
 

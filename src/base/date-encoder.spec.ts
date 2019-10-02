@@ -6,7 +6,7 @@ describe('DateEncoder', (): void => {
   let encoder: Encoder<Date>;
 
   beforeEach(() => {
-    encoder = new DateEncoder();
+    encoder = DateEncoder.getInstance();
   })
 
   describe('encode', (): void => {

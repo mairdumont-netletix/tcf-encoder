@@ -3,6 +3,8 @@ import { Decoded, Encoder } from '../interfaces';
 
 export class BitFieldEncoder implements Encoder<BitField> {
 
+  private static instance: BitFieldEncoder | null;
+
   /**
    * Our 64 character set.
    * Notable is that the last two are web safe and not
@@ -17,6 +19,15 @@ export class BitFieldEncoder implements Encoder<BitField> {
     p[c] = i;
     return p;
   }, <{ [c: string]: number }>{});
+
+  public static getInstance() {
+    if (!BitFieldEncoder.instance) {
+      BitFieldEncoder.instance = new BitFieldEncoder();
+    }
+    return BitFieldEncoder.instance;
+  }
+
+  private constructor() { }
 
   encode(value: BitField): string {
     // BitField string should contain only 0 or 1 chars

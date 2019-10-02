@@ -3,7 +3,7 @@ import { Decoded, Encoder } from "../interfaces";
 
 export class LanguageEncoder implements Encoder<string> {
 
-  private numberEncoder = new NumberEncoder();
+  private static instance: LanguageEncoder | null;
 
   private DICT: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
@@ -11,6 +11,15 @@ export class LanguageEncoder implements Encoder<string> {
     p[c] = i;
     return p;
   }, <{ [c: string]: number }>{});
+
+  public static getInstance() {
+    if (!LanguageEncoder.instance) {
+      LanguageEncoder.instance = new LanguageEncoder();
+    }
+    return LanguageEncoder.instance;
+  }
+
+  private constructor() { }
 
   encode(value: string, numBits: number): string {
     if (numBits % 2 === 1) {
@@ -21,8 +30,9 @@ export class LanguageEncoder implements Encoder<string> {
     }
     const bits = numBits / 2;
     const [firstLetter, secondLetter] = value.toUpperCase();
-    const firstLetterEncoded = this.numberEncoder.encode(this.DICT2[firstLetter], bits);
-    const secondLetterEncoded = this.numberEncoder.encode(this.DICT2[secondLetter], bits);
+    const numberEncoder = NumberEncoder.getInstance();
+    const firstLetterEncoded = numberEncoder.encode(this.DICT2[firstLetter], bits);
+    const secondLetterEncoded = numberEncoder.encode(this.DICT2[secondLetter], bits);
     return firstLetterEncoded + secondLetterEncoded;
   }
 
@@ -34,8 +44,9 @@ export class LanguageEncoder implements Encoder<string> {
       throw new Error('numBits must be even');
     }
     const halfLength = value.length / 2;
-    const { numBits: firstLetterBits, decoded: firstLetterNumber } = this.numberEncoder.decode(value.slice(0, halfLength));
-    const { numBits: secondLetterBits, decoded: secondLetterNumber } = this.numberEncoder.decode(value.slice(halfLength));
+    const numberEncoder = NumberEncoder.getInstance();
+    const { numBits: firstLetterBits, decoded: firstLetterNumber } = numberEncoder.decode(value.slice(0, halfLength));
+    const { numBits: secondLetterBits, decoded: secondLetterNumber } = numberEncoder.decode(value.slice(halfLength));
     return {
       numBits: firstLetterBits + secondLetterBits,
       decoded: this.DICT[firstLetterNumber] + this.DICT[secondLetterNumber],

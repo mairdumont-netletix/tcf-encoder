@@ -4,11 +4,21 @@ import { PublisherRestrictions } from "../model";
 
 export class PublisherRestrictionsEncoder implements Encoder<PublisherRestrictions> {
 
-  private numberEncoder = new NumberEncoder();
+  private static instance: PublisherRestrictionsEncoder | null;
+
+  public static getInstance() {
+    if (!PublisherRestrictionsEncoder.instance) {
+      PublisherRestrictionsEncoder.instance = new PublisherRestrictionsEncoder();
+    }
+    return PublisherRestrictionsEncoder.instance;
+  }
+
+  private constructor() { }
 
   encode(value: PublisherRestrictions): string {
+    const numberEncoder = NumberEncoder.getInstance();
     // required NumPubRestrictions, 12 bit, Number of restriction records to follow
-    const bitString = this.numberEncoder.encode(0, 12);
+    const bitString = numberEncoder.encode(0, 12);
     // TODO implement PublisherRestrictionsEncoder
     return bitString;
   }
