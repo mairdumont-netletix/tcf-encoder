@@ -1,4 +1,3 @@
-import { BitFieldEncoder, NumberEncoder } from "./base";
 import { SegmentType, Version } from "./constants";
 import { Decoded, Encoder } from "./interfaces";
 import { TCModel } from "./model/tc-model";
@@ -24,11 +23,8 @@ export class TCModelEncoder implements Encoder<TCModel> {
 
   decode(value: string): Decoded<TCModel> {
     let tcModel: TCModel = new TCModel();
-    const bitFieldEncoder = new BitFieldEncoder();
-    const numberEncoder = new NumberEncoder();
 
     const segments: string[] = value.split('.');
-
     if (segments.length) {
       // decode segment 0
       const version = inspectFirstBits(segments[0], 6);
