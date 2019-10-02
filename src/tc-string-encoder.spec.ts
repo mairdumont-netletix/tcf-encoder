@@ -10,15 +10,36 @@ describe('TcModelEncoder', (): void => {
     encoder = new TCStringEncoder();
   })
 
-  describe('encode', (): void => {
+  describe('encode TCF v1.0', (): void => {
     it('should encode TCModel', (): void => {
       const tcModel = new TCModel();
-      tcModel.cmpId = 4095;
-      tcModel.cmpVersion = 17;
-      tcModel.vendorListVersion = 2;
-      tcModel.purposeConsents.add(1);
+      tcModel.version = 1;
+      tcModel.created = new Date('2019-02-04T21:16:05.200Z');
+      tcModel.lastUpdated = new Date('2019-04-09T14:35:10.200Z');
+      tcModel.cmpId = 31;
+      tcModel.cmpVersion = 234;
+      tcModel.vendorListVersion = 141;
+      tcModel.consentLanguage = 'en'
+      tcModel.consentScreen = 5;
       const encoded = encoder.encode(tcModel);
       const expected = 'BObdrPUOevsguAfDqFENCNAAAAAmeAAA';
+      expect(encoded).toBe(expected);
+    });
+  });
+
+  describe('encode TCF v2.0', (): void => {
+    it('should encode TCModel', (): void => {
+      const tcModel = new TCModel();
+      tcModel.version = 2;
+      tcModel.created = new Date('2019-02-04T21:16:05.200Z');
+      tcModel.lastUpdated = new Date('2019-04-09T14:35:10.200Z');
+      tcModel.cmpId = 31;
+      tcModel.cmpVersion = 234;
+      tcModel.vendorListVersion = 141;
+      tcModel.consentLanguage = 'en'
+      tcModel.consentScreen = 5;
+      const encoded = encoder.encode(tcModel);
+      const expected = 'CObdrPUOevsguAfDqFENCNAAAAAmeAAA';
       expect(encoded).toBe(expected);
     });
   });
