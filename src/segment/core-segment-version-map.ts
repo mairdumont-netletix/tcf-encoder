@@ -176,7 +176,7 @@ export const coreSegmentVersionMap: VersionMap = {
       getValue: (m) => m.vendorLegitimateInterest,
       setValue: (m, v) => v.forEach(id => m.vendorLegitimateInterest.add(id)),
     },
-    [Field.PUBLISHER_RESTRICTIONS]: {
+    [Field.PUBLISHER_RESTRICTIONS]: <FieldInfo<PublisherRestrictions>>{
       bits: undefined,
       getEncoder: PublisherRestrictionsEncoder.getInstance,
       getValue: (m) => m.publisherRestrictions,
