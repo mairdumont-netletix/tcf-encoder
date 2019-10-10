@@ -11,6 +11,7 @@ describe('TcModelEncoder', (): void => {
   })
 
   describe('encode TCF v1.0', (): void => {
+    // TODO: tcstring from tcf2 example, check why we generate something different
     it('should encode TCModel', (): void => {
       const tcModel = new TCModel();
       tcModel.version = 1;
@@ -26,6 +27,7 @@ describe('TcModelEncoder', (): void => {
       expect(encoded).toBe(expected);
     });
 
+    // generated with mdnxcmp, should be ok
     it('should encode TCModel with range encoding for some ids', (): void => {
       const tcModel = new TCModel();
       tcModel.version = 1;
@@ -45,7 +47,8 @@ describe('TcModelEncoder', (): void => {
   });
 
   describe('encode TCF v2.0', (): void => {
-    it('should encode TCModel', (): void => {
+    // TODO: check generated tcstring manually again
+    it('should encode [Core] from TCModel', (): void => {
       const tcModel = new TCModel();
       tcModel.version = 2;
       tcModel.created = new Date('2019-02-04T21:16:05.200Z');
@@ -56,7 +59,25 @@ describe('TcModelEncoder', (): void => {
       tcModel.consentLanguage = 'en'
       tcModel.consentScreen = 5;
       const encoded = encoder.encode(tcModel);
-      const expected = 'CObdrPUOevsguAfDqFENCNAAAAAmeAAA';
+      const expected = 'CObdrPUOevsguAfDqFENCNCAAAAAAAAAAAAAAAAAAAAA';
+      expect(encoded).toBe(expected);
+    });
+
+    // TODO: check generated tcstring manually again
+    it('should encode [Core].[DisclosedVendors].[AllowedVendors].[PublisherTC] from TCModel with range encoding for some ids', (): void => {
+      const tcModel = new TCModel();
+      tcModel.version = 2;
+      tcModel.created = new Date('2019-09-04T13:02:55.300Z');
+      tcModel.lastUpdated = new Date('2019-10-02T11:46:17.400Z');
+      tcModel.cmpId = 252;
+      tcModel.cmpVersion = 1;
+      tcModel.vendorListVersion = 167;
+      tcModel.consentLanguage = 'de'
+      tcModel.consentScreen = 0;
+      tcModel.purposeConsents.add([1, 3, 4, 5]);
+      tcModel.vendorConsents.add([3, 128, 231, 299]);
+      const encoded = encoder.encode(tcModel);
+      const expected = 'COmXRv5OnzYxeD8ABADECnCAALgAAAAAAAAACVwAgAAwBAADnAJWAAAAA.IAAA.QAAA.YAAAAAAAAA'
       expect(encoded).toBe(expected);
     });
   });
@@ -129,30 +150,35 @@ describe('TcModelEncoder', (): void => {
 
   describe('decode TCF v2.0', (): void => {
 
+    // TODO recheck tc as examples in tcf2 spec are wrong
     it('should decode [Core]', (): void => {
       const tc = 'BObdrPUOevsguAfDqFENCNAAAAAmeAAA';
       const { decoded: tcModel } = encoder.decode(tc);
       expect(tcModel).toBeDefined();
     });
 
+    // TODO recheck tc as examples in tcf2 spec are wrong
     it('should decode [Core].[DisclosedVendors]', (): void => {
       const tc = 'BObdrPUOevsguAfDqFENCNAAAAAmeAAA.PVAfDObdrA';
       const { decoded: tcModel } = encoder.decode(tc);
       expect(tcModel).toBeDefined();
     });
 
+    // TODO recheck tc as examples in tcf2 spec are wrong
     it('should decode [Core].[DisclosedVendors].[AllowedVendors]', (): void => {
       const tc = 'BObdrPUOevsguAfDqFENCNAAAAAmeAAA.PVAfDObdrA.DqFENCAmeAENCDA';
       const { decoded: tcModel } = encoder.decode(tc);
       expect(tcModel).toBeDefined();
     });
 
+    // TODO recheck tc as examples in tcf2 spec are wrong
     it('should decode [Core].[DisclosedVendors].[AllowedVendors].[PublisherTC]', (): void => {
       const tc = 'BObdrPUOevsguAfDqFENCNAAAAAmeAAA.PVAfDObdrA.DqFENCAmeAENCDA.OevsguAfDq';
       const { decoded: tcModel } = encoder.decode(tc);
       expect(tcModel).toBeDefined();
     });
 
+    // TODO recheck tc as examples in tcf2 spec are wrong
     it('should decode [Core].[PublisherTC]', (): void => {
       const tc = 'BObdrPUOevsguAfDqFENCNAAAAAmeAAA.OevsguAfDq';
       const { decoded: tcModel } = encoder.decode(tc);
