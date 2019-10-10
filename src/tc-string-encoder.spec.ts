@@ -25,6 +25,23 @@ describe('TcModelEncoder', (): void => {
       const expected = 'BObdrPUOevsguAfDqFENCNAAAAAmeAAA';
       expect(encoded).toBe(expected);
     });
+
+    it('should encode TCModel with range encoding for some ids', (): void => {
+      const tcModel = new TCModel();
+      tcModel.version = 1;
+      tcModel.created = new Date('2019-09-04T13:02:55.300Z');
+      tcModel.lastUpdated = new Date('2019-10-02T11:46:17.400Z');
+      tcModel.cmpId = 252;
+      tcModel.cmpVersion = 1;
+      tcModel.vendorListVersion = 167;
+      tcModel.consentLanguage = 'de'
+      tcModel.consentScreen = 0;
+      tcModel.purposeConsents.add([1, 3, 4, 5]);
+      tcModel.vendorConsents.add([3, 128, 231, 299]);
+      const encoded = encoder.encode(tcModel);
+      const expected = 'BOmXRv5OnzYxeD8ABADECnuAAAASuAEAAGAIAAc4BKw';
+      expect(encoded).toBe(expected);
+    });
   });
 
   describe('encode TCF v2.0', (): void => {
@@ -91,6 +108,22 @@ describe('TcModelEncoder', (): void => {
       expect(tcModel.vendorListVersion).toBe(167);
       expect(tcModel.purposeConsents.toArray()).toStrictEqual([1, 2, 3, 4, 5]);
       expect(tcModel.vendorConsents.toArray()).toStrictEqual([3, 128, 231, 299]);
+    });
+
+    it('should decode [Core] (Version 1, example from sdk1)', (): void => {
+      const tc = 'BOhs9bQOjjnLQAXABBENCfeAAAApmABgAYADoA';
+      const { decoded: tcModel } = encoder.decode(tc);
+      expect(tcModel).toBeDefined();
+      expect(tcModel.version).toBe(1);
+      expect(tcModel.created.toISOString()).toBe('2019-06-06T00:46:00.000Z');
+      expect(tcModel.lastUpdated.toISOString()).toBe('2019-07-12T00:46:00.000Z');
+      expect(tcModel.cmpId).toBe(23);
+      expect(tcModel.cmpVersion).toBe(1);
+      expect(tcModel.consentScreen).toBe(1);
+      expect(tcModel.consentLanguage).toBe('EN');
+      expect(tcModel.vendorListVersion).toBe(159);
+      expect(tcModel.purposeConsents.toArray()).toStrictEqual([2, 3, 4, 5]);
+      expect(tcModel.vendorConsents.toArray()).toStrictEqual([12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]);
     });
   });
 
