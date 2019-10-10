@@ -12,14 +12,14 @@ export const vendorsDisclosedSegmentVersionMap: VersionMap = {
     [Field.SEGMENT_TYPE]: <FieldInfo<number>>{
       bits: 3,
       getEncoder: NumberEncoder.getInstance,
-      getValue: () => SegmentType.VENDORS_DISCLOSED,
+      getValue: (m) => SegmentType.VENDORS_DISCLOSED,
       setValue: (m, v) => { },
     },
-    [Field.VENDORS_ALLOWED]: <FieldInfo<IdSet>>{
+    [Field.VENDORS_DISCOLOSED]: <FieldInfo<IdSet>>{
       bits: undefined,
       getEncoder: IdSetLinearEncoder.getInstance,
       getValue: (m) => m.vendorsDisclosed,
-      setValue: (m, v) => v.forEach(id => m.vendorsDisclosed.add(id)),
+      setValue: (m, v) => m.vendorsDisclosed.add(v.toArray()),
     },
   },
 }

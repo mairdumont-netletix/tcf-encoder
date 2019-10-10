@@ -19,13 +19,13 @@ export const publisherTcSegmentVersionMap: VersionMap = {
       bits: 24,
       getEncoder: IdSetLinearEncoder.getInstance,
       getValue: (m) => m.publisherConsents,
-      setValue: (m, v) => v.forEach(id => m.publisherConsents.add(id)),
+      setValue: (m, v) => m.publisherConsents.add(v.toArray()),
     },
     [Field.PUBLISHER_LI_TRANSPARENCY]: <FieldInfo<IdSet>>{
       bits: 24,
       getEncoder: IdSetLinearEncoder.getInstance,
       getValue: (m) => m.publisherLITransparency,
-      setValue: (m, v) => v.forEach(id => m.publisherLITransparency.add(id)),
+      setValue: (m, v) => m.publisherLITransparency.add(v.toArray()),
     },
     [Field.NUM_CUSTOM_PURPOSES]: <FieldInfo<number>>{
       bits: 6,
@@ -37,13 +37,13 @@ export const publisherTcSegmentVersionMap: VersionMap = {
       bits: 24,
       getEncoder: IdSetLinearEncoder.getInstance,
       getValue: (m) => m.publisherCustomConsents,
-      setValue: (m, v) => v.forEach(id => m.publisherCustomConsents.add(id)),
+      setValue: (m, v) => m.publisherCustomConsents.add(v.toArray()),
     },
     [Field.PUBLISHER_CUSTOM_LI_TRANSPARENCY]: <FieldInfo<IdSet>>{
       bits: 24,
       getEncoder: IdSetLinearEncoder.getInstance,
       getValue: (m) => m.publisherCustomLITransparency,
-      setValue: (m, v) => v.forEach(id => m.publisherCustomLITransparency.add(id)),
+      setValue: (m, v) => m.publisherCustomLITransparency.add(v.toArray()),
     },
   }
 }

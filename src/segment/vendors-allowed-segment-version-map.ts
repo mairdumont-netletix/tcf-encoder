@@ -19,7 +19,7 @@ export const vendorsAllowedSegmentVersionMap: VersionMap = {
       bits: undefined,
       getEncoder: IdSetLinearEncoder.getInstance,
       getValue: (m) => m.vendorsAllowed,
-      setValue: (m, v) => v.forEach(id => m.vendorsAllowed.add(id)),
+      setValue: (m, v) => m.vendorsAllowed.add(v.toArray()),
     },
   },
 }
