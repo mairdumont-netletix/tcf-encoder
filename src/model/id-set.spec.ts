@@ -25,7 +25,19 @@ describe('IdSet', (): void => {
     const idSet = new IdSet();
     idSet.add(2);
     expect(idSet.has(2)).toBeTruthy();
+    expect(idSet.size).toBe(1);
     expect(idSet.maxId).toBe(2);
+  });
+
+  it('should add multiple ids', (): void => {
+    const ids = [2, 6, 12];
+    const idSet = new IdSet();
+    idSet.add(ids);
+    ids.forEach((id: number): void => {
+      expect(idSet.has(id)).toBeTruthy();
+    });
+    expect(idSet.size).toBe(ids.length);
+    expect(idSet.maxId).toBe(12);
   });
 
   it('should deduplicate', (): void => {
@@ -62,6 +74,22 @@ describe('IdSet', (): void => {
     idSet.delete(2);
     expect(idSet.has(2)).toBeFalsy();
     expect(idSet.maxId).toBe(1);
+  });
+
+  it('should delete multiple ids', (): void => {
+    const idSet = new IdSet([1]);
+    idSet.add([2, 7, 12]);
+    expect(idSet.has(1)).toBeTruthy();
+    expect(idSet.has(2)).toBeTruthy();
+    expect(idSet.has(7)).toBeTruthy();
+    expect(idSet.has(12)).toBeTruthy();
+    expect(idSet.maxId).toBe(12);
+    idSet.delete([1, 7]);
+    expect(idSet.has(1)).toBeFalsy();
+    expect(idSet.has(2)).toBeTruthy();
+    expect(idSet.has(7)).toBeFalsy();
+    expect(idSet.has(12)).toBeTruthy();
+    expect(idSet.maxId).toBe(12);
   });
 
   it('should get entries', (): void => {

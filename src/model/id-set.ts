@@ -35,7 +35,7 @@ export class IdSet implements Set<number> {
     return this.set_.size;
   }
 
-  set(value: number, enabled: boolean) {
+  set(value: number | number[], enabled: boolean) {
     if (enabled) {
       this.add(value);
     } else {
@@ -43,7 +43,10 @@ export class IdSet implements Set<number> {
     }
   }
 
-  add(value: number): this {
+  add(value: number | number[]): this {
+    if (Array.isArray(value)) {
+      return value.reduce((that, v) => that.add(v), this);
+    }
     if (!(Number.isInteger(value) && value > 0)) {
       throw new Error('value must be positive integer');
     }
@@ -57,7 +60,10 @@ export class IdSet implements Set<number> {
     this.set_ = new Set<number>();
   }
 
-  delete(value: number): boolean {
+  delete(value: number | number[]): boolean {
+    if (Array.isArray(value)) {
+      return value.map(v => this.delete(v)).reduce((p, v) => p || v, false);
+    }
     const result = this.set_.delete(value);
     if (value === this.maxId_) {
       this.maxId_ = 0;
