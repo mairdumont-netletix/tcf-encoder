@@ -150,39 +150,56 @@ describe('TcModelEncoder', (): void => {
 
   describe('decode TCF v2.0', (): void => {
 
+    const expectSegmentCoreToBeOK = (tcModel: TCModel): void => {
+      expect(tcModel.created.toISOString()).toBe('2019-09-04T13:02:55.300Z');
+      expect(tcModel.lastUpdated.toISOString()).toBe('2019-10-02T11:46:17.400Z');
+      expect(tcModel.cmpId).toBe(252);
+      expect(tcModel.cmpVersion).toBe(1);
+      expect(tcModel.consentScreen).toBe(0);
+      expect(tcModel.consentLanguage).toBe('DE');
+      expect(tcModel.vendorListVersion).toBe(167);
+      expect(tcModel.purposeConsents.toArray()).toStrictEqual([1, 3, 4, 5]);
+      expect(tcModel.vendorConsents.toArray()).toStrictEqual([3, 128, 231, 299]);
+    }
+
     // TODO recheck tc as examples in tcf2 spec are wrong
     it('should decode [Core]', (): void => {
-      const tc = 'BObdrPUOevsguAfDqFENCNAAAAAmeAAA';
+      const tc = 'COmXRv5OnzYxeD8ABADECnCAALgAAAAAAAAACVwAgAAwBAADnAJWAAAAA';
       const { decoded: tcModel } = encoder.decode(tc);
       expect(tcModel).toBeDefined();
+      expectSegmentCoreToBeOK(tcModel);
     });
 
     // TODO recheck tc as examples in tcf2 spec are wrong
     it('should decode [Core].[DisclosedVendors]', (): void => {
-      const tc = 'BObdrPUOevsguAfDqFENCNAAAAAmeAAA.PVAfDObdrA';
+      const tc = 'COmXRv5OnzYxeD8ABADECnCAALgAAAAAAAAACVwAgAAwBAADnAJWAAAAA.QAAA';
       const { decoded: tcModel } = encoder.decode(tc);
       expect(tcModel).toBeDefined();
+      expectSegmentCoreToBeOK(tcModel);
     });
 
     // TODO recheck tc as examples in tcf2 spec are wrong
     it('should decode [Core].[DisclosedVendors].[AllowedVendors]', (): void => {
-      const tc = 'BObdrPUOevsguAfDqFENCNAAAAAmeAAA.PVAfDObdrA.DqFENCAmeAENCDA';
+      const tc = 'COmXRv5OnzYxeD8ABADECnCAALgAAAAAAAAACVwAgAAwBAADnAJWAAAAA.IAAA.QAAA';
       const { decoded: tcModel } = encoder.decode(tc);
       expect(tcModel).toBeDefined();
+      expectSegmentCoreToBeOK(tcModel);
     });
 
     // TODO recheck tc as examples in tcf2 spec are wrong
     it('should decode [Core].[DisclosedVendors].[AllowedVendors].[PublisherTC]', (): void => {
-      const tc = 'BObdrPUOevsguAfDqFENCNAAAAAmeAAA.PVAfDObdrA.DqFENCAmeAENCDA.OevsguAfDq';
+      const tc = 'COmXRv5OnzYxeD8ABADECnCAALgAAAAAAAAACVwAgAAwBAADnAJWAAAAA.IAAA.QAAA.YAAAAAAAAA';
       const { decoded: tcModel } = encoder.decode(tc);
       expect(tcModel).toBeDefined();
+      expectSegmentCoreToBeOK(tcModel);
     });
 
     // TODO recheck tc as examples in tcf2 spec are wrong
     it('should decode [Core].[PublisherTC]', (): void => {
-      const tc = 'BObdrPUOevsguAfDqFENCNAAAAAmeAAA.OevsguAfDq';
+      const tc = 'COmXRv5OnzYxeD8ABADECnCAALgAAAAAAAAACVwAgAAwBAADnAJWAAAAA.YAAAAAAAAA';
       const { decoded: tcModel } = encoder.decode(tc);
       expect(tcModel).toBeDefined();
+      expectSegmentCoreToBeOK(tcModel);
     });
   });
 });
