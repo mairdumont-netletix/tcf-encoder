@@ -91,12 +91,19 @@ export class IdSet implements Set<number> {
     for (let i = 1; i <= this.maxId; i++) {
       const curValue = this.has(i);
       if (curValue) {
+        // look ahead to check if curValue is the last value in current range
         const nextValue = this.has(i + 1);
+        // if there is no next value, we found the end of the range
         if (!nextValue) {
+          // add the current number as range end to current range
           range.push(i);
+          // push the completed range to the ranges result
           ranges.push(range);
+          // clear the range array to be used in the next iteration
           range = [];
-        } else if (range.length === 0) {
+        }
+        // if range is empty and curValue is high, we found the start of a new range
+        else if (range.length === 0) {
           range.push(i);
         }
       }

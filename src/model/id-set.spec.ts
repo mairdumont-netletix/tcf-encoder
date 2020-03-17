@@ -2,6 +2,22 @@ import { IdSet } from './id-set';
 
 describe('IdSet', (): void => {
 
+  it('should set a single id using the set method', (): void => {
+    const idSet: IdSet = new IdSet();
+    idSet.set(2, true);
+    expect(idSet.has(2)).toBeTruthy();
+    expect(idSet.maxId).toBe(2);
+  });
+
+  it('should set ids array passed into set method', (): void => {
+    const ids: number[] = [1, 3, 5, 7, 9, 12, 15];
+    const idSet: IdSet = new IdSet();
+    idSet.set(ids, true);
+    ids.forEach((id: number): void => {
+      expect(idSet.has(id)).toBeTruthy();
+    });
+  });
+
   it('should set ids array passed into constructor', (): void => {
     const ids = [1, 11, 15, 12];
     const idSet = new IdSet(ids);
@@ -134,15 +150,31 @@ describe('IdSet', (): void => {
     expect(ranges).toStrictEqual([[1, 3], [6, 8], [101, 104]]);
   })
 
-  it('should calculate ranges with default value', (): void => {
-    const idSet = new IdSet([3, 4], true, 2, 6);
+  it('should calculate ranges with default value true', (): void => {
+    // if default value is true, 2..10 become true and specified ids 3..4 are set to false
+    const idSet = new IdSet([3, 4], true, 2, 10);
     const ranges = idSet.getRanges();
-    expect(ranges).toStrictEqual([[2], [5, 6]]);
+    expect(ranges).toStrictEqual([[2], [5, 10]]);
   });
 
-  it('should calculate ranges with default value 2', (): void => {
+  it('should calculate ranges of a single id with default value true', (): void => {
+    // if default value is true, 6..6 become true
     const idSet = new IdSet([], true, 6, 6);
     const ranges = idSet.getRanges();
     expect(ranges).toStrictEqual([[6]]);
+  });
+
+  it('should calculate ranges with default value false', (): void => {
+    // if default value is false, 2..6 become false and specified ids 3..4 are set to true
+    const idSet = new IdSet([3, 4], false, 2, 6);
+    const ranges = idSet.getRanges();
+    expect(ranges).toStrictEqual([[3, 4]]);
+  });
+
+  it('should calculate ranges of a single id with default value false', (): void => {
+    // if default value is false, 6..6 become false
+    const idSet = new IdSet([], false, 6, 6);
+    const ranges = idSet.getRanges();
+    expect(ranges).toStrictEqual([]);
   });
 });
