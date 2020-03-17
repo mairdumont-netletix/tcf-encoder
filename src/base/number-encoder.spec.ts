@@ -12,13 +12,11 @@ describe('NumberEncoder', (): void => {
   describe('encode', (): void => {
 
     it('should encode an integer and pad zeros to fill width', (): void => {
-      const theInt = 10;
-      const bitLength = 6;
-      const encoded = encoder.encode(theInt, bitLength);
+      const encoded = encoder.encode(10, 6);
       // should have specified length
-      expect(encoded.length).toBe(bitLength);
+      expect(encoded.length).toBe(6);
       // should be padded
-      expect(encoded).toBe('00' + (theInt).toString(2));
+      expect(encoded).toBe('001010');
     });
 
     it('should throw an error if the int is too large for the number of bits', (): void => {
@@ -34,10 +32,8 @@ describe('NumberEncoder', (): void => {
   describe('decode', (): void => {
 
     it('should decode an int and pad zeros to fill width', (): void => {
-      const theInt = 10;
-      const binaryString = '000' + theInt.toString(2);
-      const { decoded } = encoder.decode(binaryString);
-      expect(decoded).toBe(theInt);
+      const { decoded } = encoder.decode('0001010');
+      expect(decoded).toBe(10);
     });
   });
 });

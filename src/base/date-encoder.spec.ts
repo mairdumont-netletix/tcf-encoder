@@ -35,11 +35,8 @@ describe('DateEncoder', (): void => {
   describe('decode', (): void => {
 
     it(`should decode a Date`, (): void => {
-      const date: Date = new Date();
-      const encoded = encoder.encode(date, 36);
-      const { decoded } = encoder.decode(encoded);
-      const expected = Math.round(date.getTime() / 100) * 100;
-      expect(decoded.getTime()).toBe(expected);
+      const { decoded } = encoder.decode('001110110000011001100110001000001110');
+      expect(decoded.getTime()).toBe(1584440167800);
     });
   });
 });
