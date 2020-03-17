@@ -1,6 +1,6 @@
-import { GlobalVendorList } from "@mdnx/tcf-types";
-import { isIntegerGreaterThan } from "../utils";
-import { GVL } from "./gvl";
+import { GlobalVendorList } from '@mdnx/tcf-types';
+import { isIntegerGreaterThan } from '../utils';
+import { GVL } from './gvl';
 
 export class GVLLoader {
 

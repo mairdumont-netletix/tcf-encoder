@@ -1,11 +1,11 @@
-import { PurposeInfo } from "@mdnx/tcf-types";
-import { Version } from "../constants";
-import { TCModelError } from "../error/tc-model-error";
-import { GVL } from "../gvl/gvl";
-import { IdMap } from "../interfaces";
-import { isIntegerGreaterThan } from "../utils";
-import { IdSet } from "./id-set";
-import { PublisherRestrictions } from "./publisher-restrictions";
+import { PurposeInfo } from '@mdnx/tcf-types';
+import { Version } from '../constants';
+import { TCModelError } from '../error/tc-model-error';
+import { GVL } from '../gvl/gvl';
+import { IdMap } from '../interfaces';
+import { isIntegerGreaterThan } from '../utils';
+import { IdSet } from './id-set';
+import { PublisherRestrictions } from './publisher-restrictions';
 
 export class TCModel /*implements TCData*/ {
 

@@ -1,6 +1,6 @@
-import { NumberEncoder } from "../base";
-import { Decoded, Encoder } from "../interfaces";
-import { Singleton } from "../utils";
+import { NumberEncoder } from '../base';
+import { Decoded, Encoder } from '../interfaces';
+import { Singleton } from '../utils';
 
 export class LanguageEncoder implements Encoder<string> {
 
@@ -11,7 +11,7 @@ export class LanguageEncoder implements Encoder<string> {
     return p;
   }, <{ [c: string]: number }>{});
 
-  encode(value: string, numBits: number): string {
+  public encode(value: string, numBits: number): string {
     if (numBits % 2 === 1) {
       throw new Error('numBits must be even');
     }
@@ -26,7 +26,7 @@ export class LanguageEncoder implements Encoder<string> {
     return firstLetterEncoded + secondLetterEncoded;
   }
 
-  decode(value: string): Decoded<string> {
+  public decode(value: string): Decoded<string> {
     if (value.length < 2) {
       throw new Error('Invalid Language Code');
     }

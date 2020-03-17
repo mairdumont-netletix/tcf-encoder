@@ -1,12 +1,13 @@
-import { SegmentType } from "./constants";
-import { Decoded, Encoder } from "./interfaces";
-import { TCModel } from "./model/tc-model";
-import { segmentEncoderLookup } from "./segment/segment-encoder-lookup";
-import { inspectFirstBits } from "./utils";
+import { BitFieldEncoder, NumberEncoder } from './base';
+import { SegmentType } from './constants';
+import { Decoded, Encoder } from './interfaces';
+import { TCModel } from './model/tc-model';
+import { segmentEncoderLookup } from './segment/segment-encoder-lookup';
+import { Singleton } from './utils';
 
 export class TCStringEncoder implements Encoder<TCModel> {
 
-  encode(tcModel: TCModel): string {
+  public encode(tcModel: TCModel): string {
     const segmentsToEncode = [
       SegmentType.CORE,
       SegmentType.VENDORS_DISCLOSED,
@@ -21,7 +22,14 @@ export class TCStringEncoder implements Encoder<TCModel> {
       .join('.');
   }
 
-  decode(value: string): Decoded<TCModel> {
+  public decode(value: string): Decoded<TCModel> {
+    // first char will contain 6 bits, we only need the first numBits
+    const inspectFirstBits = (chars: string, numBits: number): number => {
+      const { decoded: firstBits } = Singleton.of(BitFieldEncoder).decode(chars[0]);
+      const { decoded } = Singleton.of(NumberEncoder).decode(firstBits.substr(0, numBits));
+      return decoded;
+    }
+
     let tcModel: TCModel = new TCModel();
 
     const segments: string[] = value.split('.');

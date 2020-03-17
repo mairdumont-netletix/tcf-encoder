@@ -1,14 +1,14 @@
-import { NumberEncoder } from "../base";
-import { EncodingType } from "../constants";
-import { Decoded, Encoder } from "../interfaces";
-import { IdSet } from "../model";
-import { Singleton } from "../utils";
-import { IdSetLinearEncoder } from "./id-set-linear-encoder";
-import { IdSetRangeEncoder } from "./id-set-range-encoder";
+import { NumberEncoder } from '../base';
+import { EncodingType } from '../constants';
+import { Decoded, Encoder } from '../interfaces';
+import { IdSet } from '../model';
+import { Singleton } from '../utils';
+import { IdSetLinearEncoder } from './id-set-linear-encoder';
+import { IdSetRangeEncoder } from './id-set-range-encoder';
 
 export class VendorEncoder implements Encoder<IdSet> {
 
-  encode(idSet: IdSet): string {
+  public encode(idSet: IdSet): string {
     // create two different encodings of the same thing: linear and range encoding of vendors
     const vendorLinearBitString = Singleton.of(IdSetLinearEncoder).encode(idSet, idSet.maxId);
     const vendorRangeBitString = new IdSetRangeEncoder(idSet.maxId).encode(idSet);
@@ -24,7 +24,7 @@ export class VendorEncoder implements Encoder<IdSet> {
     return bitString;
   }
 
-  decode(value: string): Decoded<IdSet> {
+  public decode(value: string): Decoded<IdSet> {
     const numberEncoder = Singleton.of(NumberEncoder);
     const { numBits: maxIdBits, decoded: maxId } = numberEncoder.decode(value.substr(0, 16));
     const { numBits: encodingTypeBits, decoded: encodingType } = numberEncoder.decode(value.substr(16, 1));

@@ -1,7 +1,7 @@
 import xhrMock, { MockRequest, MockResponse } from 'xhr-mock';
 import jsonGvlV1 from '../__tests__/fixtures/gvl-v1.json';
 import jsonGvlV2 from '../__tests__/fixtures/gvl-v2.json';
-import { GVLLoader } from "./gvl-loader";
+import { GVLLoader } from './gvl-loader';
 
 describe('GVLLoader', (): void => {
 

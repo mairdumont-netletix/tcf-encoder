@@ -1,5 +1,5 @@
-import { DateString, FeatureInfo, GlobalVendorList, PurposeInfo, StackInfo, VendorInfo } from "@mdnx/tcf-types";
-import { IdMap } from "../interfaces";
+import { DateString, FeatureInfo, GlobalVendorList, PurposeInfo, StackInfo, VendorInfo } from '@mdnx/tcf-types';
+import { IdMap } from '../interfaces';
 
 export class GVL implements GlobalVendorList {
 

@@ -5,7 +5,7 @@ import { Singleton } from '../utils';
 
 export class IdSetLinearEncoder implements Encoder<IdSet> {
 
-  encode(value: IdSet, numBits: number): string {
+  public encode(value: IdSet, numBits: number): string {
     const booleanEncoder = Singleton.of(BooleanEncoder);
     let bitString = '';
     for (let i = 1; i <= numBits; i++) {
@@ -14,7 +14,7 @@ export class IdSetLinearEncoder implements Encoder<IdSet> {
     return bitString;
   }
 
-  decode(value: string): Decoded<IdSet> {
+  public decode(value: string): Decoded<IdSet> {
     const booleanEncoder = Singleton.of(BooleanEncoder);
     const idSet: IdSet = new IdSet();
     const len = value.length;

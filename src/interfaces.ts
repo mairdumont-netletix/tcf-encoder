@@ -1,5 +1,5 @@
-import { Field, Version } from "./constants";
-import { TCModel } from "./model/tc-model";
+import { Field, Version } from './constants';
+import { TCModel } from './model/tc-model';
 
 export interface Decoded<T> {
   numBits: number;

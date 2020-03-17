@@ -18,7 +18,7 @@ export class BitFieldEncoder implements Encoder<BitField> {
     return p;
   }, <{ [c: string]: number }>{});
 
-  encode(value: BitField): string {
+  public encode(value: BitField): string {
     // BitField string should contain only 0 or 1 chars
     if (!/^[01]+$/.test(value)) {
       throw new Error('Invalid BitField');
@@ -38,7 +38,7 @@ export class BitFieldEncoder implements Encoder<BitField> {
     return retr;
   }
 
-  decode(value: string): Decoded<BitField> {
+  public decode(value: string): Decoded<BitField> {
     // should contain only characters from the base64url set
     if (!/^[A-Za-z0-9\-_]+$/.test(value)) {
       throw new Error('Invalid Base64url Encoding');

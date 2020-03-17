@@ -4,12 +4,12 @@ import { NumberEncoder } from './number-encoder';
 
 export class DateEncoder implements Encoder<Date> {
 
-  encode(value: Date, numBits: number): string {
+  public encode(value: Date, numBits: number): string {
     const int = Math.round(value.getTime() / 100);
     return Singleton.of(NumberEncoder).encode(int, numBits);
   }
 
-  decode(value: string): Decoded<Date> {
+  public decode(value: string): Decoded<Date> {
     const { numBits, decoded } = Singleton.of(NumberEncoder).decode(value);
     return {
       numBits,

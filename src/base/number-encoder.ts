@@ -2,7 +2,7 @@ import { Decoded, Encoder } from '../interfaces';
 
 export class NumberEncoder implements Encoder<number> {
 
-  encode(value: number, numBits: number): string {
+  public encode(value: number, numBits: number): string {
     let bitString = value.toString(2);
     // check if bitString is encodeable
     if (value < 0) {
@@ -17,7 +17,7 @@ export class NumberEncoder implements Encoder<number> {
     return bitString;
   }
 
-  decode(value: string): Decoded<number> {
+  public decode(value: string): Decoded<number> {
     return {
       numBits: value.length,
       decoded: parseInt(value, 2),

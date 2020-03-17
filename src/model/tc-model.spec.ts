@@ -1,7 +1,7 @@
-import { GlobalVendorList } from "@mdnx/tcf-types";
-import { GVL } from "../gvl/gvl";
+import { GlobalVendorList } from '@mdnx/tcf-types';
+import { GVL } from '../gvl/gvl';
 import jsonGvlV2 from '../__tests__/fixtures/gvl-v2.json';
-import { TCModel } from "./tc-model";
+import { TCModel } from './tc-model';
 
 describe('TCModel', (): void => {
 
