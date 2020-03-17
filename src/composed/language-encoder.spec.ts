@@ -11,14 +11,14 @@ describe('LanguageEncoder', (): void => {
 
   describe('encode', (): void => {
     const shouldBeOk = (input: string, bits: number, expected: string): void => {
-      it(`should encode "${input}" into ${bits}bits as "${expected}"`, (): void => {
+      it(`should encode "${input}" into ${bits}bit as "${expected}"`, (): void => {
         const encoded = encoder.encode(input, bits);
         expect(encoded).toBe(expected);
       });
     };
 
     const shouldBeNotOk = (input: string, bits: number, reason: string): void => {
-      it(`should not encode "${input}" into ${bits}: ${reason}`, (): void => {
+      it(`should not encode "${input}" into ${bits}bit: ${reason}`, (): void => {
         expect(() => encoder.encode(input, bits)).toThrow();
       });
     };
@@ -36,5 +36,16 @@ describe('LanguageEncoder', (): void => {
     shouldBeNotOk('-Z', 12, '"-" is before "A"');
     shouldBeNotOk('US', 11, 'cannot encode into odd number of bits');
     shouldBeNotOk('ZZ', 8, 'will not fit into 4 bits per letter');
+  });
+
+  describe('decode', (): void => {
+    it('should decode an encoded language', (): void => {
+      const { decoded } = encoder.decode('000101010001');
+      expect(decoded).toBe('FR');
+    });
+
+    it('should throw an error if the bit length is odd', (): void => {
+      expect(() => encoder.decode('0' + '000101010001')).toThrowError(/numBits must be even/);
+    });
   });
 });
