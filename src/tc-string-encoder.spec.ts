@@ -201,5 +201,17 @@ describe('TcModelEncoder', (): void => {
       expect(tcModel).toBeDefined();
       expectSegmentCoreToBeOK(tcModel);
     });
+
+    it('should decode publisher tc', (): void => {
+      const tc = 'COmXRv5OnzYxeD8ABADECnCAALgAAAAAAAAACVwAgAAwBAADnAJWAAAAA.ICXwAoAAwBAADngJWAlkBLgEv.QCXQAQBLACXA.YAAAAAAAAA';
+      const { decoded: tcModel } = encoder.decode(tc);
+      expect(tcModel).toBeDefined();
+      expectSegmentCoreToBeOK(tcModel);
+
+      expect(tcModel.vendorsAllowed.toArray()).toStrictEqual([300, 302]);
+      expect(tcModel.vendorsDisclosed.toArray()).toStrictEqual([3, 128, 231, 299, 300, 302, 303]);
+      expect(tcModel.publisherConsents.toArray()).toStrictEqual([5]);
+      expect(tcModel.publisherCustomConsents.toArray()).toStrictEqual([23]);
+    });
   });
 });
