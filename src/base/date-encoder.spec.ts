@@ -1,4 +1,5 @@
 import { Encoder } from '../interfaces';
+import { Singleton } from '../utils';
 import { DateEncoder } from './date-encoder';
 
 describe('DateEncoder', (): void => {
@@ -6,7 +7,7 @@ describe('DateEncoder', (): void => {
   let encoder: Encoder<Date>;
 
   beforeEach(() => {
-    encoder = DateEncoder.getInstance();
+    encoder = Singleton.of(DateEncoder);
   })
 
   describe('encode', (): void => {

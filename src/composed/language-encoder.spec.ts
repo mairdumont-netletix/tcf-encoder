@@ -1,4 +1,5 @@
 import { Encoder } from '../interfaces';
+import { Singleton } from '../utils';
 import { LanguageEncoder } from './language-encoder';
 
 describe('LanguageEncoder', (): void => {
@@ -6,7 +7,7 @@ describe('LanguageEncoder', (): void => {
   let encoder: Encoder<string>;
 
   beforeEach(() => {
-    encoder = LanguageEncoder.getInstance();
+    encoder = Singleton.of(LanguageEncoder);
   })
 
   describe('encode', (): void => {

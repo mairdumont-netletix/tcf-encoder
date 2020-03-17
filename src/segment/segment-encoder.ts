@@ -2,6 +2,7 @@ import { BitFieldEncoder } from "../base";
 import { Field } from "../constants";
 import { Decoded, Encoder, FieldMap } from "../interfaces";
 import { TCModel } from "../model/tc-model";
+import { Singleton } from "../utils";
 
 export class SegmentEncoder implements Encoder<TCModel> {
 
@@ -21,11 +22,11 @@ export class SegmentEncoder implements Encoder<TCModel> {
         bitField += getEncoder().encode(value, bits);
       }
     }
-    return bitField.length ? BitFieldEncoder.getInstance().encode(bitField) : '';
+    return bitField.length ? Singleton.of(BitFieldEncoder).encode(bitField) : '';
   }
 
   decode(value: string, tcModel: TCModel): Decoded<TCModel> {
-    const { decoded: bitField } = BitFieldEncoder.getInstance().decode(value);
+    const { decoded: bitField } = Singleton.of(BitFieldEncoder).decode(value);
 
     let position = 0;
     for (const field in this.fieldMap) {

@@ -1,4 +1,5 @@
 import { Encoder } from '../interfaces';
+import { Singleton } from '../utils';
 import { BooleanEncoder } from './boolean-encoder';
 
 describe('BooleanEncoder', (): void => {
@@ -6,7 +7,7 @@ describe('BooleanEncoder', (): void => {
   let encoder: Encoder<boolean>;
 
   beforeEach(() => {
-    encoder = BooleanEncoder.getInstance();
+    encoder = Singleton.of(BooleanEncoder);
   })
 
   describe('encode', (): void => {

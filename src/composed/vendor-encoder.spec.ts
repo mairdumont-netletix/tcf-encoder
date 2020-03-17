@@ -1,5 +1,6 @@
 import { Encoder } from '../interfaces';
 import { IdSet } from '../model';
+import { Singleton } from '../utils';
 import { VendorEncoder } from './vendor-encoder';
 
 describe('VendorEncoder', (): void => {
@@ -7,7 +8,7 @@ describe('VendorEncoder', (): void => {
   let encoder: Encoder<IdSet>;
 
   beforeEach(() => {
-    encoder = VendorEncoder.getInstance();
+    encoder = Singleton.of(VendorEncoder);
   })
 
   describe('encode', (): void => {

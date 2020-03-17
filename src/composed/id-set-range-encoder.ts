@@ -2,6 +2,7 @@ import { BooleanEncoder, NumberEncoder } from "../base";
 import { RangeType } from "../constants";
 import { Decoded, Encoder } from "../interfaces";
 import { IdSet } from "../model";
+import { Singleton } from "../utils";
 
 export class IdSetRangeEncoder implements Encoder<IdSet> {
 
@@ -10,7 +11,7 @@ export class IdSetRangeEncoder implements Encoder<IdSet> {
   ) { }
 
   encode(idSet: IdSet): string {
-    const numberEncoder = NumberEncoder.getInstance();
+    const numberEncoder = Singleton.of(NumberEncoder);
     const ranges: number[][] = idSet.getRanges();
     // defaultValue, 1 bit, default is 0
     let bitString = '0';
@@ -30,8 +31,8 @@ export class IdSetRangeEncoder implements Encoder<IdSet> {
   }
 
   decode(value: string): Decoded<IdSet> {
-    const numberEncoder = NumberEncoder.getInstance();
-    const booleanEncoder = BooleanEncoder.getInstance();
+    const numberEncoder = Singleton.of(NumberEncoder);
+    const booleanEncoder = Singleton.of(BooleanEncoder);
     // read defaultValue, 1 bit
     const { numBits: defaultBits, decoded: defaultValue } = booleanEncoder.decode(value.charAt(0));
     // read numEntries to process, 12 bit

@@ -1,5 +1,6 @@
 import { BitField } from '@mdnx/tcf-types';
 import { Encoder } from '../interfaces';
+import { Singleton } from '../utils';
 import { BitFieldEncoder } from './bit-field-encoder';
 
 describe('BitFieldEncoder', (): void => {
@@ -7,7 +8,7 @@ describe('BitFieldEncoder', (): void => {
   let encoder: Encoder<BitField>;
 
   beforeEach(() => {
-    encoder = BitFieldEncoder.getInstance();
+    encoder = Singleton.of(BitFieldEncoder);
   })
 
   const createRandomBinaryString = (length: number): string => {

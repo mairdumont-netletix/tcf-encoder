@@ -1,22 +1,12 @@
 import { NumberEncoder } from "../base";
 import { Decoded, Encoder } from "../interfaces";
 import { PublisherRestrictions } from "../model";
+import { Singleton } from "../utils";
 
 export class PublisherRestrictionsEncoder implements Encoder<PublisherRestrictions> {
 
-  private static instance: PublisherRestrictionsEncoder | null;
-
-  public static getInstance() {
-    if (!PublisherRestrictionsEncoder.instance) {
-      PublisherRestrictionsEncoder.instance = new PublisherRestrictionsEncoder();
-    }
-    return PublisherRestrictionsEncoder.instance;
-  }
-
-  private constructor() { }
-
   encode(value: PublisherRestrictions): string {
-    const numberEncoder = NumberEncoder.getInstance();
+    const numberEncoder = Singleton.of(NumberEncoder);
     // required NumPubRestrictions, 12 bit, Number of restriction records to follow
     const bitString = numberEncoder.encode(0, 12);
     // TODO implement PublisherRestrictionsEncoder

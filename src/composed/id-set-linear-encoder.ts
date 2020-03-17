@@ -1,22 +1,12 @@
 import { BooleanEncoder } from '../base/boolean-encoder';
 import { Decoded, Encoder } from '../interfaces';
 import { IdSet } from '../model/id-set';
+import { Singleton } from '../utils';
 
 export class IdSetLinearEncoder implements Encoder<IdSet> {
 
-  private static instance: IdSetLinearEncoder | null;
-
-  public static getInstance() {
-    if (!IdSetLinearEncoder.instance) {
-      IdSetLinearEncoder.instance = new IdSetLinearEncoder();
-    }
-    return IdSetLinearEncoder.instance;
-  }
-
-  private constructor() { }
-
   encode(value: IdSet, numBits: number): string {
-    const booleanEncoder = BooleanEncoder.getInstance();
+    const booleanEncoder = Singleton.of(BooleanEncoder);
     let bitString = '';
     for (let i = 1; i <= numBits; i++) {
       bitString += booleanEncoder.encode(value.has(i));
@@ -25,7 +15,7 @@ export class IdSetLinearEncoder implements Encoder<IdSet> {
   }
 
   decode(value: string): Decoded<IdSet> {
-    const booleanEncoder = BooleanEncoder.getInstance();
+    const booleanEncoder = Singleton.of(BooleanEncoder);
     const idSet: IdSet = new IdSet();
     const len = value.length;
     for (let i = 1; i <= len; i++) {

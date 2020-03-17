@@ -1,4 +1,5 @@
 import { Encoder } from '../interfaces';
+import { Singleton } from '../utils';
 import { NumberEncoder } from './number-encoder';
 
 describe('NumberEncoder', (): void => {
@@ -6,7 +7,7 @@ describe('NumberEncoder', (): void => {
   let encoder: Encoder<number>;
 
   beforeEach(() => {
-    encoder = NumberEncoder.getInstance();
+    encoder = Singleton.of(NumberEncoder);
   })
 
   describe('encode', (): void => {

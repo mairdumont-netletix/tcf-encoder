@@ -2,17 +2,6 @@ import { Decoded, Encoder } from '../interfaces';
 
 export class NumberEncoder implements Encoder<number> {
 
-  private static instance: NumberEncoder | null;
-
-  public static getInstance() {
-    if (!NumberEncoder.instance) {
-      NumberEncoder.instance = new NumberEncoder();
-    }
-    return NumberEncoder.instance;
-  }
-
-  private constructor() { }
-
   encode(value: number, numBits: number): string {
     let bitString = value.toString(2);
     // check if bitString is encodeable

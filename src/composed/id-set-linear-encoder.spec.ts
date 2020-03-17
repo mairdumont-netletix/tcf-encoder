@@ -1,5 +1,6 @@
 import { Encoder } from '../interfaces';
 import { IdSet } from '../model/id-set';
+import { Singleton } from '../utils';
 import { IdSetLinearEncoder } from './id-set-linear-encoder';
 
 describe('IdSetLinearEncoder', (): void => {
@@ -7,7 +8,7 @@ describe('IdSetLinearEncoder', (): void => {
   let encoder: Encoder<IdSet>;
 
   beforeEach(() => {
-    encoder = IdSetLinearEncoder.getInstance();
+    encoder = Singleton.of(IdSetLinearEncoder);
   })
 
   describe('encode', (): void => {
