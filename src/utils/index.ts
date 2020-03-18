@@ -1,4 +1,4 @@
 
+export * from './is-integer-greater-than';
+export * from './make-random-integer';
 export * from './singleton';
-
-export const isIntegerGreaterThan = (input: any, above: number): boolean => (Number.isInteger(input) && input > above);
