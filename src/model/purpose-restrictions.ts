@@ -33,19 +33,19 @@ export class PurposeRestrictions {
     }
   }
 
-  public getVendors(purposeRestriction?: PurposeRestriction): number[] {
+  public getVendors(purposeRestriction?: PurposeRestriction): IdSet {
     if (purposeRestriction) {
       const key: RestrictionHash = purposeRestriction.serialize();
       const idSet: IdSet | undefined = this.data.get(key);
       if (idSet) {
-        return idSet.toArray();
+        return idSet.clone();
       }
     }
     const result: IdSet = new IdSet();
     this.data.forEach((idSet: IdSet) => {
       result.add(idSet.toArray());
     });
-    return result.toArray();
+    return result;
   }
 
   public getRestrictions(vendorId?: number): PurposeRestriction[] {
@@ -56,5 +56,9 @@ export class PurposeRestrictions {
       }
     });
     return result;
+  }
+
+  public get numRestrictions(): number {
+    return this.data.size;
   }
 }
