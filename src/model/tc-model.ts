@@ -5,7 +5,7 @@ import { GVL } from '../gvl/gvl';
 import { IdMap } from '../interfaces';
 import { isIntegerGreaterThan } from '../utils';
 import { IdSet } from './id-set';
-import { PublisherRestrictions } from './publisher-restrictions';
+import { PurposeRestrictions } from './purpose-restrictions';
 
 export class TCModel /*implements TCData*/ {
 
@@ -46,7 +46,7 @@ export class TCModel /*implements TCData*/ {
   public readonly vendorsDisclosed: IdSet = new IdSet();
   public readonly vendorsAllowed: IdSet = new IdSet();
 
-  public readonly publisherRestrictions: PublisherRestrictions = new PublisherRestrictions();
+  public readonly publisherRestrictions: PurposeRestrictions = new PurposeRestrictions();
 
   constructor(gvl?: GVL) {
     this.gvl = gvl;

@@ -1,8 +1,8 @@
 import { BooleanEncoder, DateEncoder, NumberEncoder } from '../base';
-import { IdSetLinearEncoder, LanguageEncoder, PublisherRestrictionsEncoder, VendorEncoder } from '../composed';
+import { IdSetLinearEncoder, LanguageEncoder, PurposeRestrictionsEncoder, VendorEncoder } from '../composed';
 import { Field, Version } from '../constants';
 import { FieldInfo, VersionMap } from '../interfaces';
-import { IdSet, PublisherRestrictions } from '../model';
+import { IdSet, PurposeRestrictions } from '../model';
 import { Singleton } from '../utils';
 
 export const coreSegmentVersionMap: VersionMap = {
@@ -177,9 +177,9 @@ export const coreSegmentVersionMap: VersionMap = {
       getValue: (m) => m.vendorLegitimateInterest,
       setValue: (m, v) => v.forEach(id => m.vendorLegitimateInterest.add(id)),
     },
-    [Field.PUBLISHER_RESTRICTIONS]: <FieldInfo<PublisherRestrictions>>{
+    [Field.PUBLISHER_RESTRICTIONS]: <FieldInfo<PurposeRestrictions>>{
       bits: undefined,
-      getEncoder: () => Singleton.of(PublisherRestrictionsEncoder),
+      getEncoder: () => Singleton.of(PurposeRestrictionsEncoder),
       getValue: (m) => m.publisherRestrictions,
       setValue: (m, v) => { }, // TODO
     },

@@ -1,3 +1,4 @@
 export * from './id-set';
-export * from './publisher-restrictions';
+export * from './purpose-restriction';
+export * from './purpose-restrictions';
 export * from './tc-model';
