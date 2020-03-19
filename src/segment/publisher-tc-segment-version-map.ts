@@ -1,5 +1,6 @@
 import { NumberEncoder } from '../base';
 import { IdSetLinearEncoder } from '../composed';
+import { CustomPurposeData, CustomPurposeDataEncoder } from '../composed/custom-purpose-data-encoder';
 import { Field, SegmentType, Version } from '../constants';
 import { FieldInfo, VersionMap } from '../interfaces';
 import { IdSet } from '../model';
@@ -28,23 +29,11 @@ export const publisherTcSegmentVersionMap: VersionMap = {
       getValue: (m) => m.publisherLITransparency,
       setValue: (m, v) => m.publisherLITransparency.add(v.toArray()),
     },
-    [Field.NUM_CUSTOM_PURPOSES]: <FieldInfo<number>>{
-      bits: 6,
-      getEncoder: () => Singleton.of(NumberEncoder),
-      getValue: (m) => Object.keys(m.customPurposes).length,
+    [Field.CUSTOM_PURPOSE_DATA]: <FieldInfo<CustomPurposeData>>{
+      bits: undefined,
+      getEncoder: () => Singleton.of(CustomPurposeDataEncoder),
+      getValue: (m) => m,
       setValue: (m, v) => { },
-    },
-    [Field.PUBLISHER_CUSTOM_CONSENTS]: <FieldInfo<IdSet>>{
-      bits: 24,
-      getEncoder: () => Singleton.of(IdSetLinearEncoder),
-      getValue: (m) => m.publisherCustomConsents,
-      setValue: (m, v) => m.publisherCustomConsents.add(v.toArray()),
-    },
-    [Field.PUBLISHER_CUSTOM_LI_TRANSPARENCY]: <FieldInfo<IdSet>>{
-      bits: 24,
-      getEncoder: () => Singleton.of(IdSetLinearEncoder),
-      getValue: (m) => m.publisherCustomLITransparency,
-      setValue: (m, v) => m.publisherCustomLITransparency.add(v.toArray()),
     },
   }
 }

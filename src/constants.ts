@@ -61,7 +61,5 @@ export enum Field {
   VENDORS_ALLOWED = 'vendorsAllowed',
   PUBLISHER_CONSENTS = 'publisherConsents',
   PUBLISHER_LI_TRANSPARENCY = 'publisherLITransparency',
-  NUM_CUSTOM_PURPOSES = 'numCustomPurposes',
-  PUBLISHER_CUSTOM_CONSENTS = 'publisherCustomConsents',
-  PUBLISHER_CUSTOM_LI_TRANSPARENCY = 'publisherCustomLITransparency',
+  CUSTOM_PURPOSE_DATA = 'customPurposeData', // NUM_CUSTOM_PURPOSES = 'numCustomPurposes', PUBLISHER_CUSTOM_CONSENTS = 'publisherCustomConsents', PUBLISHER_CUSTOM_LI_TRANSPARENCY = 'publisherCustomLITransparency',
 }
