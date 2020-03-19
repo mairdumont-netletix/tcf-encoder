@@ -55,11 +55,11 @@ describe('TcModelEncoder', (): void => {
       tcModel.lastUpdated = new Date('2019-04-09T14:35:10.200Z');
       tcModel.cmpId = 31;
       tcModel.cmpVersion = 234;
-      tcModel.vendorListVersion = 141;
+      tcModel.vendorListVersion = 29;
       tcModel.consentLanguage = 'en'
       tcModel.consentScreen = 5;
       const encoded = encoder.encode(tcModel);
-      const expected = 'CObdrPUOevsguAfDqFENCNCAAAAAAAAAAAAAAAAAAAAA';
+      const expected = 'CObdrPUOevsguAfDqFENAdCAAAAAAAAAAAAAAAAAAAAA';
       expect(encoded).toBe(expected);
     });
 
@@ -71,13 +71,13 @@ describe('TcModelEncoder', (): void => {
       tcModel.lastUpdated = new Date('2019-10-02T11:46:17.400Z');
       tcModel.cmpId = 252;
       tcModel.cmpVersion = 1;
-      tcModel.vendorListVersion = 167;
+      tcModel.vendorListVersion = 29;
       tcModel.consentLanguage = 'de'
       tcModel.consentScreen = 0;
       tcModel.purposeConsents.add([1, 3, 4, 5]);
       tcModel.vendorConsents.add([3, 128, 231, 299]);
       const encoded = encoder.encode(tcModel);
-      const expected = 'COmXRv5OnzYxeD8ABADECnCAALgAAAAAAAAACVwAgAAwBAADnAJWAAAAA.IAAA.QAAA.YAAAAAAAAA'
+      const expected = 'COmXRv5OnzYxeD8ABADEAdCAALgAAAAAAAAACVwBAABgCAAHOASsAAAAAA.IF0EWSQgCYWgho0QUBzBAIYAfJgSCAMgSAAQIoSkFQISERBAGOiAQHAEQJAAAGBAAkACAAQAoHGBMCQABgAARiRCEQUGIDzNIBIBAggEaYUFAAAVmmkHC3ZCY702yumQ.YAAAAAAAAAAAAAAAAAA'
       expect(encoded).toBe(expected);
     });
   });
