@@ -1,11 +1,10 @@
-import { Encoder } from '../interfaces';
 import { IdSet } from '../model';
 import { Singleton } from '../utils';
 import { VendorEncoder } from './vendor-encoder';
 
 describe('VendorEncoder', (): void => {
 
-  let encoder: Encoder<IdSet>;
+  let encoder: VendorEncoder;
 
   beforeEach(() => {
     encoder = Singleton.of(VendorEncoder);
@@ -22,7 +21,7 @@ describe('VendorEncoder', (): void => {
         '1' + '0000000000000001' + '0000000000000110' + // range 1-6
         '0' + '0000000000110010' + // single 50
         '1' + '0000000001100101' + '0000000001101000'; // range 101 - 104
-      const encoded = encoder.encode(input, input.maxId);
+      const encoded = encoder.encode(input);
       expect(encoded).toBe(expected);
     });
 
@@ -32,7 +31,7 @@ describe('VendorEncoder', (): void => {
         '0000000000001000' + // 16 bit maxId = 8
         '0' + // 1 bit rangeEncoding = FIELD
         '10101011'; // bitField
-      const encoded = encoder.encode(input, input.maxId);
+      const encoded = encoder.encode(input);
       expect(encoded).toBe(expected);
     });
   });
@@ -40,14 +39,14 @@ describe('VendorEncoder', (): void => {
   describe('decode', (): void => {
     it('should produce same IdSet when encoding and decoding a range', (): void => {
       const input = new IdSet([1, 2, 3, 4, 5, 6, 50, 101, 102, 103, 104]);
-      const encoded = encoder.encode(input, input.maxId);
+      const encoded = encoder.encode(input);
       const { decoded } = encoder.decode(encoded);
       expect(decoded).toStrictEqual(input);
     });
 
     it('should produce same IdSet when encoding and decoding a bitstring', (): void => {
       const input = new IdSet([1, 3, 5, 7, 8]);
-      const encoded = encoder.encode(input, input.maxId);
+      const encoded = encoder.encode(input);
       const { decoded } = encoder.decode(encoded);
       expect(decoded).toStrictEqual(input);
     });

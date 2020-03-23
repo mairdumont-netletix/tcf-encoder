@@ -2,11 +2,15 @@ import { Decoded, Encoder } from '../interfaces';
 import { Singleton } from '../utils';
 import { NumberEncoder } from './number-encoder';
 
-export class DateEncoder implements Encoder<Date> {
+export interface DateEncodingOptions {
+  numBits: number;
+}
 
-  public encode(value: Date, numBits: number): string {
+export class DateEncoder implements Encoder<Date, DateEncodingOptions> {
+
+  public encode(value: Date, { numBits }: DateEncodingOptions): string {
     const int = Math.round(value.getTime() / 100);
-    return Singleton.of(NumberEncoder).encode(int, numBits);
+    return Singleton.of(NumberEncoder).encode(int, { numBits });
   }
 
   public decode(value: string): Decoded<Date> {

@@ -1,13 +1,20 @@
 import { Decoded, Encoder } from '../interfaces';
 
-export class NumberEncoder implements Encoder<number> {
+export interface NumberEncodingOptions {
+  numBits: number;
+}
 
-  public encode(value: number, numBits: number): string {
-    let bitString = value.toString(2);
+export class NumberEncoder implements Encoder<number, NumberEncodingOptions> {
+
+  public encode(value: number, { numBits }: NumberEncodingOptions): string {
     // check if bitString is encodeable
-    if (value < 0) {
-      throw new Error(`${value} is a negative number which can not be encoded`);
+    if (!Number.isInteger(value) || value < 0) {
+      throw new Error(`${value} is not a positive integer`);
     }
+    if (!Number.isInteger(numBits) || numBits < 1) {
+      throw new Error(`numBits not given (${numBits})`);
+    }
+    let bitString = value.toString(2);
     if (bitString.length > numBits) {
       throw new Error(`${value} is too large to encode into ${numBits} bits`);
     }

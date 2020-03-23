@@ -1,26 +1,25 @@
-import { Encoder } from '../interfaces';
 import { Singleton } from '../utils';
 import { LanguageEncoder } from './language-encoder';
 
 describe('LanguageEncoder', (): void => {
 
-  let encoder: Encoder<string>;
+  let encoder: LanguageEncoder;
 
   beforeEach(() => {
     encoder = Singleton.of(LanguageEncoder);
   })
 
   describe('encode', (): void => {
-    const shouldBeOk = (input: string, bits: number, expected: string): void => {
-      it(`should encode "${input}" into ${bits}bit as "${expected}"`, (): void => {
-        const encoded = encoder.encode(input, bits);
+    const shouldBeOk = (input: string, numBits: number, expected: string): void => {
+      it(`should encode "${input}" into ${numBits}bit as "${expected}"`, (): void => {
+        const encoded = encoder.encode(input, { numBits });
         expect(encoded).toBe(expected);
       });
     };
 
-    const shouldBeNotOk = (input: string, bits: number, reason: string): void => {
-      it(`should not encode "${input}" into ${bits}bit: ${reason}`, (): void => {
-        expect(() => encoder.encode(input, bits)).toThrow();
+    const shouldBeNotOk = (input: string, numBits: number, reason: string): void => {
+      it(`should not encode "${input}" into ${numBits}bit: ${reason}`, (): void => {
+        expect(() => encoder.encode(input, { numBits })).toThrow();
       });
     };
 

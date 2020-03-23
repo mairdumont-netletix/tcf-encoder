@@ -1,10 +1,10 @@
-import { Encoder } from './interfaces';
+import { SegmentType } from './constants';
 import { TCModel } from './model';
 import { TCStringEncoder } from './tc-string-encoder';
 
 describe('TcModelEncoder', (): void => {
 
-  let encoder: Encoder<TCModel>;
+  let encoder: TCStringEncoder;
 
   beforeEach(() => {
     encoder = new TCStringEncoder();
@@ -76,7 +76,7 @@ describe('TcModelEncoder', (): void => {
       tcModel.consentScreen = 0;
       tcModel.purposeConsents.add([1, 3, 4, 5]);
       tcModel.vendorConsents.add([3, 128, 231, 299]);
-      const encoded = encoder.encode(tcModel);
+      const encoded = encoder.encode(tcModel, { segments: [SegmentType.VENDORS_DISCLOSED, SegmentType.VENDORS_ALLOWED, SegmentType.PUBLISHER_TC] });
       const expected = 'COmXRv5OnzYxeD8ABADEAdCAALgAAAAAAAAACVwBAABgCAAHOASsAAAAAA.IF0EWSQgCYWgho0QUBzBAIYAfJgSCAMgSAAQIoSkFQISERBAGOiAQHAEQJAAAGBAAkACAAQAoHGBMCQABgAARiRCEQUGIDzNIBIBAggEaYUFAAAVmmkHC3ZCY702yumQ.YAAAAAAAAAAAAAAAAAA'
       expect(encoded).toBe(expected);
     });

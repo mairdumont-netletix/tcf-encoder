@@ -1,11 +1,10 @@
-import { Encoder } from '../interfaces';
 import { PurposeRestriction, PurposeRestrictions, RestrictionType } from '../model';
 import { Singleton } from '../utils';
 import { PurposeRestrictionsEncoder } from './purpose-restrictions-encoder';
 
 describe('PurposeRestrictionEncoder', (): void => {
 
-  let encoder: Encoder<PurposeRestrictions>;
+  let encoder: PurposeRestrictionsEncoder;
 
   beforeEach(() => {
     encoder = Singleton.of(PurposeRestrictionsEncoder);

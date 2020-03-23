@@ -14,7 +14,7 @@ const segmentToVersionMap: { [segmentType in SegmentType]: VersionMap } = {
   [SegmentType.PUBLISHER_TC]: publisherTcSegmentVersionMap,
 }
 
-export const segmentEncoderLookup = (version: Version, segmentType: SegmentType): Encoder<TCModel> | undefined => {
+export const segmentEncoderLookup = (version: Version, segmentType: SegmentType): Encoder<TCModel, never> | undefined => {
   const versionMap: VersionMap = segmentToVersionMap[segmentType];
   const fieldMap: FieldMap = versionMap[version];
   return new SegmentEncoder(fieldMap);

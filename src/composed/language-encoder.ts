@@ -2,7 +2,11 @@ import { NumberEncoder } from '../base';
 import { Decoded, Encoder } from '../interfaces';
 import { Singleton } from '../utils';
 
-export class LanguageEncoder implements Encoder<string> {
+export interface LanguageEncodingOptions {
+  numBits: number;
+}
+
+export class LanguageEncoder implements Encoder<string, LanguageEncodingOptions> {
 
   private DICT: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
@@ -11,7 +15,7 @@ export class LanguageEncoder implements Encoder<string> {
     return p;
   }, <{ [c: string]: number }>{});
 
-  public encode(value: string, numBits: number): string {
+  public encode(value: string, { numBits }: LanguageEncodingOptions): string {
     if (numBits % 2 === 1) {
       throw new Error('numBits must be even');
     }
@@ -21,8 +25,8 @@ export class LanguageEncoder implements Encoder<string> {
     const bits = numBits / 2;
     const [firstLetter, secondLetter] = value.toUpperCase();
     const numberEncoder = Singleton.of(NumberEncoder);
-    const firstLetterEncoded = numberEncoder.encode(this.DICT2[firstLetter], bits);
-    const secondLetterEncoded = numberEncoder.encode(this.DICT2[secondLetter], bits);
+    const firstLetterEncoded = numberEncoder.encode(this.DICT2[firstLetter], { numBits: bits });
+    const secondLetterEncoded = numberEncoder.encode(this.DICT2[secondLetter], { numBits: bits });
     return firstLetterEncoded + secondLetterEncoded;
   }
 

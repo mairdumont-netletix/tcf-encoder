@@ -6,15 +6,15 @@ import { Singleton } from '../utils';
 import { IdSetLinearEncoder } from './id-set-linear-encoder';
 import { IdSetRangeEncoder } from './id-set-range-encoder';
 
-export class VendorEncoder implements Encoder<IdSet> {
+export class VendorEncoder implements Encoder<IdSet, never> {
 
   public encode(idSet: IdSet): string {
     // create two different encodings of the same thing: linear and range encoding of vendors
-    const vendorLinearBitString = Singleton.of(IdSetLinearEncoder).encode(idSet, idSet.maxId);
+    const vendorLinearBitString = Singleton.of(IdSetLinearEncoder).encode(idSet);
     const vendorRangeBitString = new IdSetRangeEncoder(idSet.maxId).encode(idSet);
 
     // maxId in 16 bits
-    let bitString = Singleton.of(NumberEncoder).encode(idSet.maxId, 16);
+    let bitString = Singleton.of(NumberEncoder).encode(idSet.maxId, { numBits: 16 });
     // depending of what is shorter, we use linear or range encoding
     if (vendorRangeBitString.length < vendorLinearBitString.length) {
       bitString += EncodingType.RANGE + vendorRangeBitString;

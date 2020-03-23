@@ -1,11 +1,9 @@
-import { BitField } from '@mdnx/tcf-types';
-import { Encoder } from '../interfaces';
 import { Singleton } from '../utils';
 import { BitFieldEncoder } from './bit-field-encoder';
 
 describe('BitFieldEncoder', (): void => {
 
-  let encoder: Encoder<BitField>;
+  let encoder: BitFieldEncoder;
 
   beforeEach(() => {
     encoder = Singleton.of(BitFieldEncoder);

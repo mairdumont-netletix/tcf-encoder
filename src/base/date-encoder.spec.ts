@@ -1,10 +1,9 @@
-import { Encoder } from '../interfaces';
 import { Singleton } from '../utils';
 import { DateEncoder } from './date-encoder';
 
 describe('DateEncoder', (): void => {
 
-  let encoder: Encoder<Date>;
+  let encoder: DateEncoder;
 
   beforeEach(() => {
     encoder = Singleton.of(DateEncoder);
@@ -15,7 +14,7 @@ describe('DateEncoder', (): void => {
     it(`should encode a Date into 36 bits`, (): void => {
       const numBits = 36;
       const date: Date = new Date();
-      const encoded = encoder.encode(date, numBits);
+      const encoded = encoder.encode(date, { numBits });
 
       let expected: string = Math.round(date.getTime() / 100).toString(2);
 
@@ -29,7 +28,7 @@ describe('DateEncoder', (): void => {
     it(`should not encode a Date into 26 bits`, (): void => {
       const numBits = 26;
       const date: Date = new Date();
-      expect(() => encoder.encode(date, numBits)).toThrowError();
+      expect(() => encoder.encode(date, { numBits })).toThrowError();
     });
   });
 

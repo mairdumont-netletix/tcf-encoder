@@ -3,12 +3,17 @@ import { Decoded, Encoder } from '../interfaces';
 import { IdSet } from '../model/id-set';
 import { Singleton } from '../utils';
 
-export class IdSetLinearEncoder implements Encoder<IdSet> {
+export interface IdSetLinearEncodingOptions {
+  numBits?: number;
+}
 
-  public encode(value: IdSet, numBits: number): string {
+export class IdSetLinearEncoder implements Encoder<IdSet, IdSetLinearEncodingOptions> {
+
+  public encode(value: IdSet, { numBits }: IdSetLinearEncodingOptions = {}): string {
+    const bits = numBits || value.maxId;
     const booleanEncoder = Singleton.of(BooleanEncoder);
     let bitString = '';
-    for (let i = 1; i <= numBits; i++) {
+    for (let i = 1; i <= bits; i++) {
       bitString += booleanEncoder.encode(value.has(i));
     }
     return bitString;

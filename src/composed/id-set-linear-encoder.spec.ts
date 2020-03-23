@@ -1,11 +1,10 @@
-import { Encoder } from '../interfaces';
 import { IdSet } from '../model/id-set';
 import { Singleton } from '../utils';
 import { IdSetLinearEncoder } from './id-set-linear-encoder';
 
 describe('IdSetLinearEncoder', (): void => {
 
-  let encoder: Encoder<IdSet>;
+  let encoder: IdSetLinearEncoder;
 
   beforeEach(() => {
     encoder = Singleton.of(IdSetLinearEncoder);
@@ -17,7 +16,7 @@ describe('IdSetLinearEncoder', (): void => {
       const idSet: IdSet = new IdSet([1, 2, 5]);
       const numBits = 10;
 
-      const result = encoder.encode(idSet, numBits);
+      const result = encoder.encode(idSet, { numBits });
 
       expect(result.length).toBe(numBits);
       expect(result).toBe('1100100000');

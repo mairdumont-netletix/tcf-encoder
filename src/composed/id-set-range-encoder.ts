@@ -4,7 +4,7 @@ import { Decoded, Encoder } from '../interfaces';
 import { IdSet } from '../model';
 import { Singleton } from '../utils';
 
-export class IdSetRangeEncoder implements Encoder<IdSet> {
+export class IdSetRangeEncoder implements Encoder<IdSet, never> {
 
   constructor(
     private maxId: number,
@@ -16,15 +16,15 @@ export class IdSetRangeEncoder implements Encoder<IdSet> {
     // defaultValue, 1 bit, default is 0
     let bitString = '0';
     // NumEntries, 12 bits, Number of RangeEntry sections to follow
-    bitString += numberEncoder.encode(ranges.length, 12);
+    bitString += numberEncoder.encode(ranges.length, { numBits: 12 });
     ranges.forEach((range: number[]) => {
       if (range.length === 1) {
-        bitString += numberEncoder.encode(RangeType.SINGLE_ID, 1);
-        bitString += numberEncoder.encode(range[0], 16);
+        bitString += numberEncoder.encode(RangeType.SINGLE_ID, { numBits: 1 });
+        bitString += numberEncoder.encode(range[0], { numBits: 16 });
       } else if (range.length >= 2) {
-        bitString += numberEncoder.encode(RangeType.ID_RANGE, 1);
-        bitString += numberEncoder.encode(range[0], 16);
-        bitString += numberEncoder.encode(range[1], 16);
+        bitString += numberEncoder.encode(RangeType.ID_RANGE, { numBits: 1 });
+        bitString += numberEncoder.encode(range[0], { numBits: 16 });
+        bitString += numberEncoder.encode(range[1], { numBits: 16 });
       }
     });
     return bitString;

@@ -5,14 +5,16 @@ import { TCModel } from './model/tc-model';
 import { segmentEncoderLookup } from './segment/segment-encoder-lookup';
 import { Singleton } from './utils';
 
-export class TCStringEncoder implements Encoder<TCModel> {
+export interface TCStringEncoderOptions {
+  segments?: SegmentType[];
+}
 
-  public encode(tcModel: TCModel): string {
-    const segmentsToEncode = [
+export class TCStringEncoder implements Encoder<TCModel, TCStringEncoderOptions> {
+
+  public encode(tcModel: TCModel, { segments = [] }: TCStringEncoderOptions = {}): string {
+    const segmentsToEncode: SegmentType[] = [
       SegmentType.CORE,
-      SegmentType.VENDORS_DISCLOSED,
-      SegmentType.VENDORS_ALLOWED,
-      SegmentType.PUBLISHER_TC,
+      ...segments
     ];
 
     return segmentsToEncode
