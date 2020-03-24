@@ -162,9 +162,9 @@ describe('TcModelEncoder', (): void => {
       expect(tcModel.cmpVersion).toBe(1);
       expect(tcModel.consentScreen).toBe(0);
       expect(tcModel.consentLanguage).toBe('DE');
-      expect(tcModel.vendorListVersion).toBe(167);
+      expect(tcModel.vendorListVersion).toBe(29);
       expect(tcModel.purposeConsents.toArray()).toStrictEqual([1, 3, 4, 5]);
-      expect(tcModel.vendorConsents.toArray()).toStrictEqual([3, 128, 231, 299]);
+      expect(tcModel.vendorConsents.toArray()).toStrictEqual([1]);
     }
 
     /**
@@ -174,7 +174,7 @@ describe('TcModelEncoder', (): void => {
      * BObdrPUOevsguAfDqFENCNAAAAAmeAAA
      */
     it('should decode [Core]', (): void => {
-      const tc = 'COmXRv5OnzYxeD8ABADECnCAALgAAAAAAAAACVwAgAAwBAADnAJWAAAAA';
+      const tc = 'COmXRv5OnzYxeD8ABADEAdCAALgAAAAAAAAAAAoABMAA';
       const { decoded: tcModel } = encoder.decode(tc);
       expect(tcModel).toBeDefined();
       expectSegmentCoreToBeOK(tcModel);
@@ -187,7 +187,7 @@ describe('TcModelEncoder', (): void => {
      * BObdrPUOevsguAfDqFENCNAAAAAmeAAA.PVAfDObdrA
      */
     it('should decode [Core].[DisclosedVendors]', (): void => {
-      const tc = 'COmXRv5OnzYxeD8ABADECnCAALgAAAAAAAAACVwAgAAwBAADnAJWAAAAA.QAAA';
+      const tc = 'COmXRv5OnzYxeD8ABADEAdCAALgAAAAAAAAAAAoABMAA.QAAA';
       const { decoded: tcModel } = encoder.decode(tc);
       expect(tcModel).toBeDefined();
       expectSegmentCoreToBeOK(tcModel);
@@ -200,7 +200,7 @@ describe('TcModelEncoder', (): void => {
      * BObdrPUOevsguAfDqFENCNAAAAAmeAAA.PVAfDObdrA.DqFENCAmeAENCDA
      */
     it('should decode [Core].[DisclosedVendors].[AllowedVendors]', (): void => {
-      const tc = 'COmXRv5OnzYxeD8ABADECnCAALgAAAAAAAAACVwAgAAwBAADnAJWAAAAA.IAAA.QAAA';
+      const tc = 'COmXRv5OnzYxeD8ABADEAdCAALgAAAAAAAAAAAoABMAA.IAAA.QAAA';
       const { decoded: tcModel } = encoder.decode(tc);
       expect(tcModel).toBeDefined();
       expectSegmentCoreToBeOK(tcModel);
@@ -213,7 +213,7 @@ describe('TcModelEncoder', (): void => {
      * BObdrPUOevsguAfDqFENCNAAAAAmeAAA.PVAfDObdrA.DqFENCAmeAENCDA.OevsguAfDq
      */
     it('should decode [Core].[DisclosedVendors].[AllowedVendors].[PublisherTC]', (): void => {
-      const tc = 'COmXRv5OnzYxeD8ABADECnCAALgAAAAAAAAACVwAgAAwBAADnAJWAAAAA.IAAA.QAAA.YAAAAAAAAA';
+      const tc = 'COmXRv5OnzYxeD8ABADEAdCAALgAAAAAAAAAAAoABMAA.IAAA.QAAA.YAAAAAAAAA';
       const { decoded: tcModel } = encoder.decode(tc);
       expect(tcModel).toBeDefined();
       expectSegmentCoreToBeOK(tcModel);
@@ -226,14 +226,14 @@ describe('TcModelEncoder', (): void => {
      * BObdrPUOevsguAfDqFENCNAAAAAmeAAA.OevsguAfDq
      */
     it('should decode [Core].[PublisherTC]', (): void => {
-      const tc = 'COmXRv5OnzYxeD8ABADECnCAALgAAAAAAAAACVwAgAAwBAADnAJWAAAAA.YAAAAAAAAA';
+      const tc = 'COmXRv5OnzYxeD8ABADEAdCAALgAAAAAAAAAAAoABMAA.YAAAAAAAAA';
       const { decoded: tcModel } = encoder.decode(tc);
       expect(tcModel).toBeDefined();
       expectSegmentCoreToBeOK(tcModel);
     });
 
     it('should decode publisher tc', (): void => {
-      const tc = 'COmXRv5OnzYxeD8ABADECnCAALgAAAAAAAAACVwAgAAwBAADnAJWAAAAA.ICXwAoAAwBAADngJWAlkBLgEv.QCXQAQBLACXA.YAAAAAAAAA';
+      const tc = 'COmXRv5OnzYxeD8ABADEAdCAALgAAAAAAAAACWQBAABgCAAHPASsBLAAAAAA.IF0GWSQgCYWgho0QUBzBAIYAfJgSCAMgSAAQIoSkFSISERBAGOiAQ3AEQJAAAGBAAkACAAQAoHGBMCQABgAARiRCEQUGIDzNIBIBAggEaYUFAAAVmmkHC3ZCY702yumQ.QCXQAgCWAEuA.YQAAAAAAAAAAAQAAAAA';
       const { decoded: tcModel } = encoder.decode(tc);
       expect(tcModel).toBeDefined();
       expectSegmentCoreToBeOK(tcModel);
