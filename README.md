@@ -13,7 +13,22 @@ For more details see [Transparency and Consent Framework](https://github.com/Int
 npm install @mdnx/tcf-encoder --save
 ```
 
+## Development
+
+```bash
+npm run test:watch
+```
+
 ## Related Links
 
 - [Online Consent String Decoder TCString (TCF 1 only)](https://www.decodeconsentstring.com/v1.0/)
 - [Quantcast GDPR Consent Cookie workshop (TCF 1 only)](http://gdpr-demo.labs.quantcast.com/user-examples/cookie-workshop.html)
+
+## Disclaimer
+
+This project is **not ready for production** use and still experimental.
+
+This is a very early soft fork of
+[Consent-String-SDK-JS](https://github.com/InteractiveAdvertisingBureau/Consent-String-SDK-JS) and
+[iabtcf-es](https://github.com/InteractiveAdvertisingBureau/iabtcf-es)
+with a different goal: simplicity and without internal magic of loading and processing the gvl.
