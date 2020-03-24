@@ -1,9 +1,9 @@
 import { SegmentType, Version } from '../constants';
 import { Encoder, FieldMap, VersionMap } from '../interfaces';
-import { TCModel } from '../model/tc-model';
+import { TCModel } from '../model';
 import { coreSegmentVersionMap } from './core-segment-version-map';
 import { publisherTcSegmentVersionMap } from './publisher-tc-segment-version-map';
-import { SegmentEncoder } from './segment-encoder';
+import { SegmentDecodingOptions, SegmentEncoder } from './segment-encoder';
 import { vendorsAllowedSegmentVersionMap } from './vendors-allowed-segment-version-map';
 import { vendorsDisclosedSegmentVersionMap } from './vendors-disclosed-segment-version-map';
 
@@ -14,7 +14,7 @@ const segmentToVersionMap: { [segmentType in SegmentType]: VersionMap } = {
   [SegmentType.PUBLISHER_TC]: publisherTcSegmentVersionMap,
 }
 
-export const segmentEncoderLookup = (version: Version, segmentType: SegmentType): Encoder<TCModel, never> | undefined => {
+export const segmentEncoderLookup = (version: Version, segmentType: SegmentType): Encoder<TCModel, never, SegmentDecodingOptions> | undefined => {
   const versionMap: VersionMap = segmentToVersionMap[segmentType];
   const fieldMap: FieldMap = versionMap[version];
   return new SegmentEncoder(fieldMap);

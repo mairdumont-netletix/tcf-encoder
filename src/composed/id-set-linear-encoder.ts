@@ -7,7 +7,7 @@ export interface IdSetLinearEncodingOptions {
   numBits?: number;
 }
 
-export class IdSetLinearEncoder implements Encoder<IdSet, IdSetLinearEncodingOptions> {
+export class IdSetLinearEncoder implements Encoder<IdSet, IdSetLinearEncodingOptions, never> {
 
   public encode(value: IdSet, { numBits }: IdSetLinearEncodingOptions = {}): string {
     const bits = numBits || value.maxId;

@@ -4,7 +4,11 @@ import { Decoded, Encoder, FieldMap } from '../interfaces';
 import { TCModel } from '../model/tc-model';
 import { Singleton } from '../utils';
 
-export class SegmentEncoder implements Encoder<TCModel, never> {
+export interface SegmentDecodingOptions {
+  tcModel: TCModel;
+}
+
+export class SegmentEncoder implements Encoder<TCModel, never, SegmentDecodingOptions> {
 
   constructor(
     private fieldMap: FieldMap,
@@ -25,7 +29,7 @@ export class SegmentEncoder implements Encoder<TCModel, never> {
     return bitField.length ? Singleton.of(BitFieldEncoder).encode(bitField) : '';
   }
 
-  public decode(value: string, tcModel: TCModel): Decoded<TCModel> {
+  public decode(value: string, { tcModel }: SegmentDecodingOptions): Decoded<TCModel> {
     const { decoded: bitField } = Singleton.of(BitFieldEncoder).decode(value);
 
     let position = 0;

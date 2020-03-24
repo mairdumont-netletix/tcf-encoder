@@ -7,16 +7,16 @@ export interface Decoded<T> {
   rest?: string;
 }
 
-export interface Encoder<T, ENCODING_OPTIONS> {
+export interface Encoder<T, ENCODING_OPTIONS, DECODING_OPTIONS> {
   encode(value: T, options?: ENCODING_OPTIONS): string;
-  decode(value: string, target?: T): Decoded<T>;
+  decode(value: string, options?: DECODING_OPTIONS): Decoded<T>;
 }
 
 export interface IdMap<T> {
   [id: number]: T;
 }
 
-export type EncoderResolver<T> = () => Encoder<T, any>;
+export type EncoderResolver<T> = () => Encoder<T, unknown, unknown>;
 export type ValueGetter<T> = (model: TCModel) => T;
 export type ValueSetter<T> = (model: TCModel, value: T) => void;
 

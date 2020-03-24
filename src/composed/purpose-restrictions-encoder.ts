@@ -4,10 +4,12 @@ import { IdSet, PurposeRestriction, PurposeRestrictions } from '../model';
 import { Singleton } from '../utils';
 import { IdSetRangeEncoder } from './id-set-range-encoder';
 
-export class PurposeRestrictionsEncoder implements Encoder<PurposeRestrictions, never> {
+export class PurposeRestrictionsEncoder implements Encoder<PurposeRestrictions, never, never> {
 
   public encode(value: PurposeRestrictions): string {
     const numberEncoder = Singleton.of(NumberEncoder);
+    const idSetRangeEncoder = Singleton.of(IdSetRangeEncoder);
+
     // required NumPubRestrictions, 12 bit, Number of restriction records to follow
     let bitString = numberEncoder.encode(value.numRestrictions, { numBits: 12 });
 
@@ -19,7 +21,7 @@ export class PurposeRestrictionsEncoder implements Encoder<PurposeRestrictions, 
 
       // now get all the vendors under that restriction
       const vendors: IdSet = value.getVendors(restriction);
-      bitString += new IdSetRangeEncoder(vendors.maxId).encode(vendors);
+      bitString += idSetRangeEncoder.encode(vendors);
     });
 
     return bitString;

@@ -6,9 +6,9 @@ export interface LanguageEncodingOptions {
   numBits: number;
 }
 
-export class LanguageEncoder implements Encoder<string, LanguageEncodingOptions> {
+export class LanguageEncoder implements Encoder<string, LanguageEncodingOptions, never> {
 
-  private DICT: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  private readonly DICT: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
   private readonly DICT2 = Array.from(this.DICT).reduce((p, c, i) => {
     p[c] = i;

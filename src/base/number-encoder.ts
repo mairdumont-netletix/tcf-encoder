@@ -4,7 +4,7 @@ export interface NumberEncodingOptions {
   numBits: number;
 }
 
-export class NumberEncoder implements Encoder<number, NumberEncodingOptions> {
+export class NumberEncoder implements Encoder<number, NumberEncodingOptions, never> {
 
   public encode(value: number, { numBits }: NumberEncodingOptions): string {
     // check if bitString is encodeable

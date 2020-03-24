@@ -1,6 +1,6 @@
 import { Decoded, Encoder } from '../interfaces';
 
-export class BooleanEncoder implements Encoder<boolean, never> {
+export class BooleanEncoder implements Encoder<boolean, never, never> {
 
   public encode(value: boolean): string {
     return +value + '';

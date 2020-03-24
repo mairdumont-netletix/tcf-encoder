@@ -1,7 +1,7 @@
 import { BitField } from '@mdnx/tcf-types';
 import { Decoded, Encoder } from '../interfaces';
 
-export class BitFieldEncoder implements Encoder<BitField, never> {
+export class BitFieldEncoder implements Encoder<BitField, never, never> {
 
   /**
    * Our 64 character set.

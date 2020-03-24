@@ -6,7 +6,7 @@ export interface DateEncodingOptions {
   numBits: number;
 }
 
-export class DateEncoder implements Encoder<Date, DateEncodingOptions> {
+export class DateEncoder implements Encoder<Date, DateEncodingOptions, never> {
 
   public encode(value: Date, { numBits }: DateEncodingOptions): string {
     const int = Math.round(value.getTime() / 100);

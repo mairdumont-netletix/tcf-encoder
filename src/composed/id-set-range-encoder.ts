@@ -4,11 +4,11 @@ import { Decoded, Encoder } from '../interfaces';
 import { IdSet } from '../model';
 import { Singleton } from '../utils';
 
-export class IdSetRangeEncoder implements Encoder<IdSet, never> {
+export interface IdSetRangeDecodingOptions {
+  maxId: number;
+}
 
-  constructor(
-    private maxId: number,
-  ) { }
+export class IdSetRangeEncoder implements Encoder<IdSet, never, IdSetRangeDecodingOptions> {
 
   public encode(idSet: IdSet): string {
     const numberEncoder = Singleton.of(NumberEncoder);
@@ -30,7 +30,7 @@ export class IdSetRangeEncoder implements Encoder<IdSet, never> {
     return bitString;
   }
 
-  public decode(value: string): Decoded<IdSet> {
+  public decode(value: string, { maxId }: IdSetRangeDecodingOptions): Decoded<IdSet> {
     const numberEncoder = Singleton.of(NumberEncoder);
     const booleanEncoder = Singleton.of(BooleanEncoder);
     // read defaultValue, 1 bit
@@ -38,7 +38,7 @@ export class IdSetRangeEncoder implements Encoder<IdSet, never> {
     // read numEntries to process, 12 bit
     const { numBits: numEntiesBits, decoded: numEntries } = numberEncoder.decode(value.substr(1, 12));
 
-    const idSet = new IdSet([], defaultValue, 1, this.maxId);
+    const idSet = new IdSet([], defaultValue, 1, maxId);
 
     let index = defaultBits + numEntiesBits;
     for (let i = 0; i < numEntries; i++) {
