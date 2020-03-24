@@ -20,6 +20,15 @@
     "url": "https://github.com/mairdumont-netletix/tcf-encoder/issues"
   },
   "homepage": "https://github.com/mairdumont-netletix/tcf-encoder#readme",
+  "jest": {
+    "preset": "ts-jest",
+    "verbose": true,
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/dist/"
+    ]
+  },
   "devDependencies": {
     "@mdnx/tcf-types": "1.1.0-1",
     "@types/jest": "25.1.4",
