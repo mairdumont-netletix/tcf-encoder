@@ -12,6 +12,11 @@ describe('TcModelEncoder', (): void => {
 
   describe('encode TCF v1.0', (): void => {
     // TODO: tcstring from tcf2 example, check why we generate something different
+
+    /**
+     * example from: tcstring from tcf2 example, check why we generate something different
+     * BObdrPUOevsguAfDqFENCNAAAAAmeAAA
+     */
     it('should encode TCModel', (): void => {
       const tcModel = new TCModel();
       tcModel.version = 1;
@@ -162,7 +167,12 @@ describe('TcModelEncoder', (): void => {
       expect(tcModel.vendorConsents.toArray()).toStrictEqual([3, 128, 231, 299]);
     }
 
-    // TODO recheck tc as examples in tcf2 spec are wrong
+    /**
+     * example from: https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20Consent%20string%20and%20vendor%20list%20formats%20v2.md#disclosed-vendors-oob
+     *
+     * TODO: recheck tc as examples in tcf2 spec are wrong:
+     * BObdrPUOevsguAfDqFENCNAAAAAmeAAA
+     */
     it('should decode [Core]', (): void => {
       const tc = 'COmXRv5OnzYxeD8ABADECnCAALgAAAAAAAAACVwAgAAwBAADnAJWAAAAA';
       const { decoded: tcModel } = encoder.decode(tc);
@@ -170,7 +180,12 @@ describe('TcModelEncoder', (): void => {
       expectSegmentCoreToBeOK(tcModel);
     });
 
-    // TODO recheck tc as examples in tcf2 spec are wrong
+    /**
+     * example from: https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20Consent%20string%20and%20vendor%20list%20formats%20v2.md#disclosed-vendors-oob
+     *
+     * TODO: recheck tc as examples in tcf2 spec are wrong:
+     * BObdrPUOevsguAfDqFENCNAAAAAmeAAA.PVAfDObdrA
+     */
     it('should decode [Core].[DisclosedVendors]', (): void => {
       const tc = 'COmXRv5OnzYxeD8ABADECnCAALgAAAAAAAAACVwAgAAwBAADnAJWAAAAA.QAAA';
       const { decoded: tcModel } = encoder.decode(tc);
@@ -178,7 +193,12 @@ describe('TcModelEncoder', (): void => {
       expectSegmentCoreToBeOK(tcModel);
     });
 
-    // TODO recheck tc as examples in tcf2 spec are wrong
+    /**
+     * example from: https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20Consent%20string%20and%20vendor%20list%20formats%20v2.md#disclosed-vendors-oob
+     *
+     * TODO: recheck tc as examples in tcf2 spec are wrong:
+     * BObdrPUOevsguAfDqFENCNAAAAAmeAAA.PVAfDObdrA.DqFENCAmeAENCDA
+     */
     it('should decode [Core].[DisclosedVendors].[AllowedVendors]', (): void => {
       const tc = 'COmXRv5OnzYxeD8ABADECnCAALgAAAAAAAAACVwAgAAwBAADnAJWAAAAA.IAAA.QAAA';
       const { decoded: tcModel } = encoder.decode(tc);
@@ -186,7 +206,12 @@ describe('TcModelEncoder', (): void => {
       expectSegmentCoreToBeOK(tcModel);
     });
 
-    // TODO recheck tc as examples in tcf2 spec are wrong
+    /**
+     * example from: https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20Consent%20string%20and%20vendor%20list%20formats%20v2.md#disclosed-vendors-oob
+     *
+     * TODO: recheck tc as examples in tcf2 spec are wrong:
+     * BObdrPUOevsguAfDqFENCNAAAAAmeAAA.PVAfDObdrA.DqFENCAmeAENCDA.OevsguAfDq
+     */
     it('should decode [Core].[DisclosedVendors].[AllowedVendors].[PublisherTC]', (): void => {
       const tc = 'COmXRv5OnzYxeD8ABADECnCAALgAAAAAAAAACVwAgAAwBAADnAJWAAAAA.IAAA.QAAA.YAAAAAAAAA';
       const { decoded: tcModel } = encoder.decode(tc);
@@ -194,7 +219,12 @@ describe('TcModelEncoder', (): void => {
       expectSegmentCoreToBeOK(tcModel);
     });
 
-    // TODO recheck tc as examples in tcf2 spec are wrong
+    /**
+     * example from: https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20Consent%20string%20and%20vendor%20list%20formats%20v2.md#disclosed-vendors-oob
+     *
+     * TODO: recheck tc as examples in tcf2 spec are wrong:
+     * BObdrPUOevsguAfDqFENCNAAAAAmeAAA.OevsguAfDq
+     */
     it('should decode [Core].[PublisherTC]', (): void => {
       const tc = 'COmXRv5OnzYxeD8ABADECnCAALgAAAAAAAAACVwAgAAwBAADnAJWAAAAA.YAAAAAAAAA';
       const { decoded: tcModel } = encoder.decode(tc);
