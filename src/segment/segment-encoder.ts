@@ -4,10 +4,19 @@ import { Decoded, Encoder, FieldMap } from '../interfaces';
 import { TCModel } from '../model/tc-model';
 import { Singleton } from '../utils';
 
+/**
+ * Options to configure decoding of a segment.
+ */
 export interface SegmentDecodingOptions {
+  /**
+   * Object to apply the read field data from the segment while decoding.
+   */
   tcModel: TCModel;
 }
 
+/**
+ * Handles encoding/decoding of a TCF consent string segment.
+ */
 export class SegmentEncoder implements Encoder<TCModel, never, SegmentDecodingOptions> {
 
   constructor(
@@ -37,7 +46,7 @@ export class SegmentEncoder implements Encoder<TCModel, never, SegmentDecodingOp
       const fieldInfo = this.fieldMap[field as Field];
       if (fieldInfo) {
         const { bits, getEncoder, setValue } = fieldInfo;
-        // if we fieldinfo contains bit lenght, we split the bitField into chunk
+        // if we fieldinfo contains bit length, we split the bitField into a chunk
         const chunk = bitField.substr(position, bits);
         // decode chunk and extract information, numBits contains the number of processed bits
         const { numBits, decoded } = getEncoder().decode(chunk);

@@ -1,6 +1,9 @@
 import { BitField } from '@mdnx/tcf-types';
 import { Decoded, Encoder } from '../interfaces';
 
+/**
+ * Handles encoding/decoding an binary like string to an base64url representation.
+ */
 export class BitFieldEncoder implements Encoder<BitField, never, never> {
 
   /**

@@ -3,12 +3,27 @@ import { Decoded, Encoder } from '../interfaces';
 import { IdSet } from '../model/id-set';
 import { Singleton } from '../utils';
 
+/**
+ * Options to configure encoding of a id set.
+ */
 export interface IdSetLinearEncodingOptions {
+  /**
+   * number of bits to use for encoding
+   */
   numBits?: number;
 }
 
+/**
+ * Handles encoding/decoding of a set of IDs into a linear binary bit string.
+ */
 export class IdSetLinearEncoder implements Encoder<IdSet, IdSetLinearEncodingOptions, never> {
 
+  /**
+   * Encodes a set of IDs into a linear binary bit string.
+   *
+   * @param value set of ordered and unique IDs
+   * @param options configures how to encode the id set
+   */
   public encode(value: IdSet, { numBits }: IdSetLinearEncodingOptions = {}): string {
     const bits = numBits || value.maxId;
     const booleanEncoder = Singleton.of(BooleanEncoder);
@@ -19,6 +34,11 @@ export class IdSetLinearEncoder implements Encoder<IdSet, IdSetLinearEncodingOpt
     return bitString;
   }
 
+  /**
+   * Decodes a linear binary bit string into a set of ids.
+   *
+   * @param value linear binary bit string to decode
+   */
   public decode(value: string): Decoded<IdSet> {
     const booleanEncoder = Singleton.of(BooleanEncoder);
     const idSet: IdSet = new IdSet();

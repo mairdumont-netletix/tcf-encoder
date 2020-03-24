@@ -8,8 +8,16 @@ export interface IdSetRangeDecodingOptions {
   maxId: number;
 }
 
+/**
+ * Handles encoding/decoding of a set of IDs into a range encoding as binary string.
+ */
 export class IdSetRangeEncoder implements Encoder<IdSet, never, IdSetRangeDecodingOptions> {
 
+  /**
+   * Encodes a set of ids into range encoded binary string.
+   *
+   * @param idSet set of ids to encode
+   */
   public encode(idSet: IdSet): string {
     const numberEncoder = Singleton.of(NumberEncoder);
     const ranges: number[][] = idSet.getRanges();
@@ -30,6 +38,12 @@ export class IdSetRangeEncoder implements Encoder<IdSet, never, IdSetRangeDecodi
     return bitString;
   }
 
+  /**
+   * Binary stream to decode with range encoding.
+   *
+   * @param value binary string to deocde
+   * @param options configure how to decode the range
+   */
   public decode(value: string, { maxId }: IdSetRangeDecodingOptions): Decoded<IdSet> {
     const numberEncoder = Singleton.of(NumberEncoder);
     const booleanEncoder = Singleton.of(BooleanEncoder);

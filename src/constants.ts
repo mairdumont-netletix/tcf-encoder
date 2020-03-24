@@ -2,13 +2,21 @@
  * There are 4 distinct TC String segments that are joined together on a “dot” character.
  */
 export enum SegmentType {
-  // The core vendor transparency and consent details
+  /**
+   * The core vendor transparency and consent details
+   */
   CORE = 0,
-  // Disclosed vendors for validating OOB signaling
+  /**
+   * Disclosed vendors for validating OOB signaling
+   */
   VENDORS_DISCLOSED = 1,
-  // Allowed vendors for restricting OOB signaling to select vendors
+  /**
+   * Allowed vendors for restricting OOB signaling to select vendors
+   */
   VENDORS_ALLOWED = 2,
-  // Publisher purposes transparency and consent for their own data uses
+  /**
+   * Publisher purposes transparency and consent for their own data uses
+   */
   PUBLISHER_TC = 3,
 }
 
@@ -31,11 +39,17 @@ export enum RangeType {
   ID_RANGE = 1,
 }
 
+/**
+ * TCF consent version.
+ */
 export enum Version {
   V1 = 1,
   V2 = 2,
 }
 
+/**
+ * Fields in a consent string/model.
+ */
 export enum Field {
   SEGMENT_TYPE = 'segmentType',
   VERSION = 'version',

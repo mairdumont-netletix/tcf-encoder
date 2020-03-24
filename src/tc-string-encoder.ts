@@ -5,13 +5,28 @@ import { TCModel } from './model/tc-model';
 import { segmentEncoderLookup } from './segment/segment-encoder-lookup';
 import { Singleton } from './utils';
 
+/**
+ * Options to configure how to encode a consent string.
+ */
 export interface TCStringEncoderOptions {
   segments?: SegmentType[];
 }
 
+/**
+ * Handles encoding/decoding of a TCModel to a consent string.
+ *
+ * This this the "main" encoder which makes use of all other encoders internally.
+ */
 export class TCStringEncoder implements Encoder<TCModel, TCStringEncoderOptions, never> {
 
+  /**
+   * Encodes a TCModel into an consent string.
+   *
+   * @param tcModel TCModel to encode
+   * @param options configure how to encode the TCModel
+   */
   public encode(tcModel: TCModel, { segments = [] }: TCStringEncoderOptions = {}): string {
+    // use selected segments from options, but use always core segment in any case
     const segmentsToEncode: SegmentType[] = [
       SegmentType.CORE,
       ...segments
@@ -24,6 +39,11 @@ export class TCStringEncoder implements Encoder<TCModel, TCStringEncoderOptions,
       .join('.');
   }
 
+  /**
+   * Decodes a consent string into a TCModel.
+   *
+   * @param value consent string to decode
+   */
   public decode(value: string): Decoded<TCModel> {
     // first char will contain 6 bits, we only need the first numBits
     const inspectFirstBits = (chars: string, numBits: number): number => {

@@ -4,8 +4,16 @@ import { IdSet, PurposeRestriction, PurposeRestrictions } from '../model';
 import { Singleton } from '../utils';
 import { IdSetRangeEncoder } from './id-set-range-encoder';
 
+/**
+ * Handles encoding/decoding of publisher/purpose restrictions.
+ */
 export class PurposeRestrictionsEncoder implements Encoder<PurposeRestrictions, never, never> {
 
+  /**
+   * Encodes a purpose restriction into a binary string.
+   *
+   * @param value purpose restriction to encode
+   */
   public encode(value: PurposeRestrictions): string {
     const numberEncoder = Singleton.of(NumberEncoder);
     const idSetRangeEncoder = Singleton.of(IdSetRangeEncoder);
@@ -27,6 +35,11 @@ export class PurposeRestrictionsEncoder implements Encoder<PurposeRestrictions, 
     return bitString;
   }
 
+  /**
+   * Decodes a binary string into a purpose restriction.
+   *
+   * @param value binary string to decode.
+   */
   public decode(value: string): Decoded<PurposeRestrictions> {
     // TODO: implement decoding
     return {

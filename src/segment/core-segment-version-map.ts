@@ -5,7 +5,17 @@ import { FieldInfo, VersionMap } from '../interfaces';
 import { IdSet, PurposeRestrictions } from '../model';
 import { Singleton } from '../utils';
 
+/**
+ * Describes core segment of consent string per tcf version per field.
+ *
+ * The Core String is always required and comes first and includes all
+ * the details required for communicating basic vendor transparency and
+ * consent.
+ */
 export const coreSegmentVersionMap: VersionMap = {
+  /**
+   * Description of consent string version 1
+   */
   [Version.V1]: {
     [Field.VERSION]: <FieldInfo<number>>{
       bits: 6,
@@ -68,6 +78,9 @@ export const coreSegmentVersionMap: VersionMap = {
       setValue: (m, v) => v.forEach(id => m.vendorConsents.add(id)),
     },
   },
+  /**
+   * Description of consent string version 2
+   */
   [Version.V2]: {
     [Field.VERSION]: <FieldInfo<number>>{
       bits: 6,
