@@ -57,7 +57,7 @@ export class LanguageEncoder implements Encoder<string, LanguageEncodingOptions,
       throw new Error('Invalid Language Code');
     }
     if (value.length % 2 === 1) {
-      throw new Error('numBits must be even');
+      throw new Error('bit length must be even');
     }
     const halfLength = value.length / 2;
     const numberEncoder = Singleton.of(NumberEncoder);

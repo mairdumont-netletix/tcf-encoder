@@ -20,6 +20,9 @@ export class BooleanEncoder implements Encoder<boolean, never, never> {
    * @param value 0/1 bit string to decode
    */
   public decode(value: string): Decoded<boolean> {
+    if (!/^[01]{1}$/.test(value)) {
+      throw new Error(`invalid bit string: ${value}`);
+    }
     return {
       numBits: 1,
       decoded: value === '1'

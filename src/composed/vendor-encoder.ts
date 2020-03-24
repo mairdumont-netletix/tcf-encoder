@@ -68,7 +68,8 @@ export class VendorEncoder implements Encoder<IdSet, never, never> {
           decoded,
         }
       default:
-        throw new Error('invalid encodingType');
+        // something was wrong as there is no range or linear encoding specified
+        throw new Error(`invalid encodingType: ${encodingType}`);
     }
   }
 }
