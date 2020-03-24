@@ -48,7 +48,7 @@ export class IdSet implements Set<number> {
       return value.reduce((that, v) => that.add(v), this);
     }
     if (!(Number.isInteger(value) && value > 0)) {
-      throw new Error('value must be positive integer');
+      throw new Error(`value must be positive integer: ${value}`);
     }
     this.maxId_ = Math.max(this.maxId_, value);
     this.set_.add(value);

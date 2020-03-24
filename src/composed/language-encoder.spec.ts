@@ -45,7 +45,7 @@ describe('LanguageEncoder', (): void => {
     });
 
     it('should throw an error if the bit length is odd', (): void => {
-      expect(() => encoder.decode('0' + '000101010001')).toThrowError(/numBits must be even/);
+      expect(() => encoder.decode('0' + '000101010001')).toThrowError(/bit length must be even/);
     });
   });
 });
